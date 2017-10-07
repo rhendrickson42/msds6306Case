@@ -96,5 +96,16 @@ state_IBU[which.max(state_IBU$IBU),]
 summary(state_ABV)
 
 ``` 
+```{r beer_plot}
+
+
+ggplot(beer_world, aes(x = IBU, y = ABV)) + 
+  geom_point(colour = 'red', size = 1, na.rm=TRUE) + 
+  labs(title = "Relationship between Bitterness and Alcohol content", subtitle = "Is bitter better?") + 
+  labs(caption = "(based on data from ...?? where's the data from ??)")
+  geom_smooth(method=lm, formula = x ~ y, size = 1, na.rm=TRUE)
+
+```
+
 
 
