@@ -1,0 +1,46 @@
+---
+title: "Case Study 01 - Beers"
+author: "Randall Hendrickson"
+date: "October 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Case Study 01
+
+Beers
+
+```{r beer_data}
+
+library(RCurl)
+library(data.table)
+library(dplyr)
+
+github_file_1 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Breweries.csv"
+github_file_2 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Beers.csv"
+
+breweries <- read.csv(text = getURL(github_file_1), header = TRUE, sep = ",")
+beers <- read.csv(text = getURL(github_file_2), header = TRUE, sep = ",")
+
+# tidy the data
+colnames(breweries)[1] <- "Brewery_id"
+
+```
+
+## Question 1
+
+```{r questions}
+
+mydt <- setDT(breweries)[, .(count = uniqueN(Brewery_id)), by = State]
+setorder(mydt, State)
+mydt
+
+# use dplyr
+mydt2 <- breweries
+mydt2 %>% group_by(State) %>% summarize(count=n()) %>% print(n = 100)
+
+```
+
