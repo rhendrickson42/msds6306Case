@@ -43,4 +43,20 @@ mydt2 <- breweries
 mydt2 %>% group_by(State) %>% summarize(count=n()) %>% print(n = 100)
 
 ```
+```{r question2}
+
+# merge beer data and brewery data
+
+beer_world <- merge(beers, breweries, by = "Brewery_id")
+names(beer_world)[names(beer_world) == "Name.x"] <- "Beer_Name"
+names(beer_world)[names(beer_world) == "Name.y"] <- "Brewery_Name"
+
+# print first 6 observations
+head(beer_world, 6)
+# print last 6 observations
+tail(beer_world, 6)
+
+```
+
+
 
