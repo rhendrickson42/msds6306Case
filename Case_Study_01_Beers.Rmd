@@ -18,6 +18,7 @@ Beers
 library(RCurl)
 library(data.table)
 library(dplyr)
+library(ggplot2)
 
 github_file_1 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Breweries.csv"
 github_file_2 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Beers.csv"
@@ -31,6 +32,10 @@ beers <- read.csv(text = getURL(github_file_2), header = TRUE, sep = ",")
 # from str(beer_world), also " AL", " AR", etc.
 
 colnames(breweries)[1] <- "Brewery_id"
+breweries$Name <- trimws(breweries$Name)
+breweries$State <- trimws(breweries$State)
+
+# TODO get Renvironment
 
 ```
 
@@ -62,7 +67,7 @@ tail(beer_world, 6)
 
 ```
 
-```{r question4}
+```{r question3}
 
 # report number of NAs
 
@@ -70,5 +75,17 @@ num_NAs <- sapply(beer_world, function(x) sum(is.na(x)))
 num_NAs
 
 ```
+
+```{r question_4}
+#4 compute the median alcohol content and IBU for each state Plot a bar chart to compare
+
+state_ABV <- aggregate(beer_world["ABV"], by=beer_world[c("State")], FUN=median, na.rm=TRUE)
+barplot(state_ABV$ABV, main="Beer ABV by State", names.arg = state_ABV$State)
+
+state_IBU <- aggregate(beer_world["IBU"], by=beer_world[c("State")], FUN=median, na.rm=TRUE)
+barplot(state_IBU$IBU, main="Beer IBU by State", names.arg = state_IBU$State)
+
+
+``` 
 
 
