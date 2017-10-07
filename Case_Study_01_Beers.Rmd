@@ -26,6 +26,10 @@ breweries <- read.csv(text = getURL(github_file_1), header = TRUE, sep = ",")
 beers <- read.csv(text = getURL(github_file_2), header = TRUE, sep = ",")
 
 # tidy the data
+# 
+# TODO - remove strange characters seen in dataframe, whitespace, view data, verify #001 Golden Amber Lager beer name
+# from str(beer_world), also " AL", " AR", etc.
+
 colnames(breweries)[1] <- "Brewery_id"
 
 ```
@@ -58,5 +62,13 @@ tail(beer_world, 6)
 
 ```
 
+```{r question4}
+
+# report number of NAs
+
+num_NAs <- sapply(beer_world, function(x) sum(is.na(x)))
+num_NAs
+
+```
 
 

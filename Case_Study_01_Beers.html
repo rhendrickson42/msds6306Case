@@ -148,6 +148,10 @@ breweries &lt;- read.csv(text = getURL(github_file_1), header = TRUE, sep = &quo
 beers &lt;- read.csv(text = getURL(github_file_2), header = TRUE, sep = &quot;,&quot;)
 
 # tidy the data
+# 
+# TODO - remove strange characters seen in dataframe, whitespace, view data, verify #001 Golden Amber Lager beer name
+# from str(beer_world), also &quot; AL&quot;, &quot; AR&quot;, etc.
+
 colnames(breweries)[1] &lt;- &quot;Brewery_id&quot;</code></pre>
 </div>
 <div id="question-1" class="section level2">
@@ -317,6 +321,14 @@ tail(beer_world, 6)</code></pre>
 ## 2408 Garrattsville    NY
 ## 2409 Garrattsville    NY
 ## 2410     Anchorage    AK</code></pre>
+<pre class="r"><code># report number of NAs
+
+num_NAs &lt;- sapply(beer_world, function(x) sum(is.na(x)))
+num_NAs</code></pre>
+<pre><code>##   Brewery_id    Beer_Name      Beer_ID          ABV          IBU 
+##            0            0            0           62         1005 
+##        Style       Ounces Brewery_Name         City        State 
+##            0            0            0            0            0</code></pre>
 </div>
 
 
