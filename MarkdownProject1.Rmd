@@ -1,0 +1,65 @@
+---
+title: "MarkdownProject1"
+output: html_document
+---
+
+## Number of Breweries by State
+```{r, ECHO=TRUE}
+setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+head(Breweries, n=25)
+
+library('plyr') # to call the count command
+States <- (Breweries$State) #assigns variable to States
+count(States) #Generates frequency table.  Number of Observations(breweries)/State
+```
+
+## Unit test for brewery names repeated
+```{r, ECHO=TRUE}
+setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+head(Breweries, n=25)
+length(unique(States)) #counts unique categories in major_count. 51 States represented
+length(unique(Breweries$Name))
+n_occur <- data.frame(table(Breweries$Name))# gives you a data frame with a list of ids and the number of times they occurred.
+n_occur[n_occur$Freq > 1,]
+```
+
+
+
+
+
+
+
+##Merged data sets Print first 6 and last 6
+```{r, ECHO=TRUE}
+setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+
+Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+Beers <- read.csv("Beers.csv",sep=",", header = TRUE)
+mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
+head(mergedData,n=6)
+tail(mergedData, n=6)
+```
+
+## Report the number of NA's in each column
+```{r, ECHO=TRUE}
+summary(mergedData)
+```
+IBU has 1005 NA's and ABV has 62 NA's.
+
+## Compute the median alcohol content and international bitterness unit for each state.  Plot a bar chart to compare.
+```{r, ECHO=TRUE}
+MedianByState <- median(c(mergedData[mergedData$State,]), na.rm = TRUE)
+head(MedianByState)
+
+ABV <- mergedData$ABV
+IBU <- mergedData$IBU
+State <- mergedData$State
+x <- list(ABV=ABV, IBU=IBU, State=State) #create list
+
+Medians <- sapply(x, median, na.rm=TRUE) #apply mean function to each on list
+
+
+
+```
