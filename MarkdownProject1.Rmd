@@ -48,18 +48,117 @@ summary(mergedData)
 ```
 IBU has 1005 NA's and ABV has 62 NA's.
 
-## Compute the median alcohol content and international bitterness unit for each state.  Plot a bar chart to compare.
+
+
+
+## FUNCTION BUILDING
+
+# Create list of States by alphabetical oarder for user to copy into function.
 ```{r, ECHO=TRUE}
-MedianByState <- median(c(mergedData[mergedData$State,]), na.rm = TRUE)
-head(MedianByState)
-
-ABV <- mergedData$ABV
-IBU <- mergedData$IBU
-State <- mergedData$State
-x <- list(ABV=ABV, IBU=IBU, State=State) #create list
-
-Medians <- sapply(x, median, na.rm=TRUE) #apply mean function to each on list
-
-
-
+library('plyr')
+ListOfStates <- sort(unique(mergedData$State))
+ListOfStates <- data.frame(lapply(ListOfStates, as.character), stringsAsFactors=FALSE)
+as.character(ListOfStates)
+ListOfStates <- gsub(" ", "", ListOfStates, fixed = TRUE)
 ```
+## Compute the median Alcohol Beverage Content (ABV) and international bitterness unit (IBV) for each state.  Plot a bar chart to compare.
+```{r, ECHO=TRUE}
+state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+State_IBV <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+ABV_IBV_Output <- merge(state_ABV, State_IBV, by=c('State'))
+ABV_IBV_Output
+```
+## Compute the number of beers in the state selected. Input State Desired.
+```{r, ECHO=TRUE}
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateBeers <- mergedData[grep(StateSelected, mergedData$State),]
+StateBeers
+nrow(StateBeers)
+```
+
+## Print State, number of Beers in the state, Median ABV/IBU in the state, and plot ABV/IBU with highlighted state
+```{r, ECHO=TRUE}
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+library('plyr')
+ListOfStates <- sort(unique(mergedData$State))
+ListOfStates
+
+
+## FUNCTION
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateQty <- data.frame(matrix(ncol = 2, nrow = 51))
+ColorOfPlot <- 0
+library(data.table)
+setnames(StateQty, old = c('X1','X2'), new = c('State','Number')) #Changes the names of columns.
+
+#FUNCTION START - UNCOMMENT LATER
+#StateOutput <- function (StateSelected, ListOfStates){
+ 
+#  Loop below builds a data frame with state and number of beers in each state
+for(i in 1:51){
+StateQty$State[i] <- as.character(ListOfStates[i])
+StateBeers <- mergedData[grep(ListOfStates[i], mergedData$State),]
+StateQty$Number[i] <- nrow(StateBeers)
+ColorOfPlot[i] <- 'Red'
+}
+StateQty <- StateQty[order(-StateQty$Number),]#Orders from high to low based on number in brewery
+#StateQty
+ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the color of the state to stand out in plotting.
+# Plots a histogram in decreasing order of beers per state with the state of interest highlighted
+library(ggplot2)
+ggplot(data=StateQty, aes(x=reorder(State, -Number), y=Number)) + geom_bar(stat = "identity", fill=ColorOfPlot) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("Number of Beers") + ggtitle("Number of Different Beers by State")
+}
+```
+
+
+Totals<-0 #initializing the vecor
+for(i in 1:51){
+  x<-dice(sides=6, reps=10)
+  Totals[i]<-x
+
+
+
+
+
+
+```{r, ECHO=TRUE}
+# Function Setup and inputs
+StateReport <- function(StateOfInterest, Filename) {
+FileToRead <- paste(getwd(), '/', Filename, sep="")
+FileToRead
+SleepData <- read.csv(FileToRead)
+
+# 3a. Create Objects
+MedianAge <- median(SleepData$Age, na.rm=TRUE) #Median Age Object
+MinDurationSleep <- min(SleepData$Duration, na.rm=TRUE) #Min Sleep Object
+MaxDurationSleep <- max(SleepData$Duration, na.rm=TRUE) # Max Sleep object
+MeanRSES <- mean(SleepData$RSES, na.rm=TRUE) # Mean RSES Object
+StdDevRSES <- sd(SleepData$RSES, na.rm=TRUE) # Standard Deviation of RSES Object
+SumObjects <- c(MedianAge, MinDurationSleep, MaxDurationSleep, MeanRSES, StdDevRSES)
+SumObjects #Creates one vector with all of the values.
+
+#3b. Create a data.frame
+report <- data.frame(MedianAge, MeanRSES/5, StdDevRSES/5, MaxDurationSleep - MinDurationSleep) # creates data frame with the requested data for question 3b.
+report
+
+#3c. Change the column names
+cnames <- c("MedianAge", "SelfEsteem", "SE_SD", "DurationRange")
+colnames(report) <- cnames
+report
+
+#3d. Round the report to at most 2 digits
+report$SelfEsteem <- round(report$SelfEsteem, digits = 2)
+report$SE_SD <- round(report$SE_SD, digits = 2)
+report
+}
+```
+
+3e Run Function
+
+```{r, RunFunction, ECHO=TRUE}
+setwd("c:/Users/Jim/Google Drive/school/DoingD~1/Week3")
+Filename <- c('sleep_data_01.csv')
+SummaryReport(Filename)
+```
+
+
