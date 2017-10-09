@@ -1,0 +1,17 @@
+---
+title: "Case Study 01 - Customer Background"
+author: "Randall Hendrickson"
+date: "October 9, 2017"
+output: html_document
+---
+
+```{r setup_customer, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Customer
+
+
+
+## Demographics
+

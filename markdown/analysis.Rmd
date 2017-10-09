@@ -1,0 +1,18 @@
+---
+title: "Case Study 01 - Analysis"
+author: "Randall Hendrickson"
+date: "October 9, 2017"
+output: html_document
+---
+
+```{r setup_analysis, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Beer and Brewery Analysis
+
+
+## Information
+
+
+

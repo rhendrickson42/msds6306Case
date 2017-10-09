@@ -3,6 +3,8 @@ title: "Case Study 01 - Beers"
 author: "Randall Hendrickson"
 date: "October 6, 2017"
 output: html_document
+params:
+  state: "TX"
 ---
 
 ```{r setup, include=FALSE}
@@ -114,6 +116,14 @@ ggplot(beer_world, aes(x = IBU, y = ABV)) +
 
 ```
 
+
+```{r state_to_analyze}
+
+cat(paste("This is the state to analyze:", params$state))
+
+
+
+```
 
 
 ## Reproducible Research
