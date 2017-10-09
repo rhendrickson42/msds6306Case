@@ -3,13 +3,48 @@ title: "Case Study 01 - Analysis"
 author: "Randall Hendrickson"
 date: "October 9, 2017"
 output: html_document
+params:
+  state: "TX"
 ---
 
 ```{r setup_analysis, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+```{r, code=readLines(".././scripts/DataSetup.R")}
+
+# not sure yet how to read/pass data
+```
+
+
 ## Beer and Brewery Analysis
+
+```{r, beer_analysis_and_graphs}
+
+beer_world <- merge(beers, breweries, by = "Brewery_id")
+names(beer_world)[names(beer_world) == "Name.x"] <- "Beer_Name"
+names(beer_world)[names(beer_world) == "Name.y"] <- "Brewery_Name"
+
+
+summary(beer_world)
+
+```
+
+
+
+### Breweries and IBU by state
+
+```{r, beer_analysis_graphs}
+
+library(ggplot2)
+
+p <- ggplot(beer_world, aes(x = IBU)) + geom_freqpoly(binwidth = 3, na.rm = TRUE) + facet_wrap(~State)
+p
+
+
+```
+
 
 
 ## Information

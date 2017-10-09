@@ -13,9 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Case Study 01
 
+```{r, code=readLines("./scripts/DataSetup.R")}
+
 # read data file (does not run code) 
 # - actually it appears it does read code
-```{r, code=readLines("./scripts/DataSetup.R")}
+
 #require()
 #read_chunk('./DataSetup.R')
 ```
@@ -125,6 +127,12 @@ cat(paste("This is the state to analyze:", params$state))
 
 ```
 
+
+```{r child = './markdown/analysis.Rmd'}
+```
+
+```{r child = './markdown/customer.Rmd'}
+```
 
 ## Reproducible Research
 
