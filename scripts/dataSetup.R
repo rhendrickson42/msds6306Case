@@ -9,13 +9,23 @@
 
 library(RCurl)
 
+# use here package to help with project structure
+# devtools::install_github("krlmlr/here")
+library(here)
+# option to replace below from using github
+local_file1 <- here("data", "Breweries.csv")
+local_file2 <- here("data", "Beers.csv")
+
+breweries <- read.csv(paste(local_file1), header = TRUE, sep = ",")
+beers <- read.csv(paste(local_file2), header = TRUE, sep = ",")
+
 github_file_1 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Breweries.csv"
 github_file_2 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Beers.csv"
 
 ## @knitr variables beersBreweries
 
-breweries <- read.csv(text = getURL(github_file_1), header = TRUE, sep = ",")
-beers <- read.csv(text = getURL(github_file_2), header = TRUE, sep = ",")
+#breweries <- read.csv(text = getURL(github_file_1), header = TRUE, sep = ",")
+#beers <- read.csv(text = getURL(github_file_2), header = TRUE, sep = ",")
 
 # tidy the data
 # 
@@ -45,6 +55,8 @@ breweries$State <- trimws(breweries$State)
 # https://yihui.name/knitr/demo/externalization/
 # https://github.com/yihui/knitr-examples
 
+# a package for working directory (to help with project structure)
+# https://github.com/jennybc/here_here#readme
 
 
 # log environment

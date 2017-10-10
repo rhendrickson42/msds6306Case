@@ -1,7 +1,13 @@
 # data sets
 # script testing
 
-source("../scripts/dataSetup.R")
+# use here package to help with project structure
+# devtools::install_github("krlmlr/here")
+library(here)
+
+dataSetup_script <- here("scripts", "dataSetup.R")
+
+source(dataSetup_script)
 
 # Create a data set for bitterness
 bitterBeer <- subset(beers,!(is.na(beers$IBU))) 
