@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r, code=readLines(".././scripts/DataSetup.R")}
+```{r, code=readLines("./scripts/DataSetup.R")}
 
 # not sure yet how to read/pass data
 ```

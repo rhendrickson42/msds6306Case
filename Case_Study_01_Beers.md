@@ -3,13 +3,14 @@ title: "Case Study 01 - Beers"
 author: "Randall Hendrickson"
 date: "October 6, 2017"
 output: html_document
+params:
+  state: "TX"
 ---
 
 
 
 ## Case Study 01
 
-# read data file (does not run code) - actually it appears it does read code
 
 ```r
 # MSDS 6306 Case Study 01
@@ -49,6 +50,10 @@ beers <- read.csv(text = getURL(github_file_2), header = TRUE, sep = ",")
 colnames(breweries)[1] <- "Brewery_id"
 breweries$Name <- trimws(breweries$Name)
 breweries$State <- trimws(breweries$State)
+
+# note - to run from cmd line
+# "c:\Program Files\R\R-3.4.1\bin\Rscript.exe" -e "library(knitr); knit('Case_Study_01_Beers.Rmd')
+
 
 # log bibliography info
 #
@@ -92,8 +97,8 @@ sessionInfo()
 ## [1] RCurl_1.95-4.8 bitops_1.0-6   knitr_1.17    
 ## 
 ## loaded via a namespace (and not attached):
-## [1] compiler_3.4.1  magrittr_1.5    tools_3.4.1     stringi_1.1.5  
-## [5] stringr_1.2.0   evaluate_0.10.1
+## [1] compiler_3.4.1  magrittr_1.5    tools_3.4.1     yaml_2.1.14    
+## [5] stringi_1.1.5   stringr_1.2.0   evaluate_0.10.1
 ```
 
 Beers
@@ -106,6 +111,10 @@ Beers
 ```r
 library(data.table)
 library(dplyr)
+```
+
+```
+## Warning: package 'dplyr' was built under R version 3.4.2
 ```
 
 ```
@@ -416,6 +425,178 @@ ggplot(beer_world, aes(x = IBU, y = ABV)) +
 
 
 
+```r
+cat(paste("This is the state to analyze:", params$state))
+```
+
+```
+## Error in paste("This is the state to analyze:", params$state): object 'params' not found
+```
+
+
+
+
+
+
+
+
+```r
+# MSDS 6306 Case Study 01
+#
+# data setup and log environment()
+#
+# This is an external R script to setup data
+# 
+
+## @knitr variablesGitHubFiles
+
+library(RCurl)
+
+github_file_1 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Breweries.csv"
+github_file_2 <- "https://raw.githubusercontent.com/rhendrickson42/msds6306Case/master/data/Beers.csv"
+
+## @knitr variables beersBreweries
+
+breweries <- read.csv(text = getURL(github_file_1), header = TRUE, sep = ",")
+beers <- read.csv(text = getURL(github_file_2), header = TRUE, sep = ",")
+
+# tidy the data
+# 
+# TODO - remove strange characters seen in dataframe, whitespace, view data, verify #001 Golden Amber Lager beer name
+# from str(beer_world), also " AL", " AR", etc.
+
+colnames(breweries)[1] <- "Brewery_id"
+breweries$Name <- trimws(breweries$Name)
+breweries$State <- trimws(breweries$State)
+
+# note - to run from cmd line
+# "c:\Program Files\R\R-3.4.1\bin\Rscript.exe" -e "library(knitr); knit('Case_Study_01_Beers.Rmd')
+
+
+# log bibliography info
+#
+# TODO note- testing where to put bibliographies and citations (some ideas)
+# probably at end of Rmarkdown as described in Bibliography placement
+# http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html#bibliography_placement
+
+# https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-cite-web-pages-and-programs-from-the-ucla-statistical-consulting-group/
+# https://stats.idre.ucla.edu/r/faq/how-can-i-explore-different-smooths-in-ggplot2/
+
+# http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+
+# info on how to separate documents
+# https://yihui.name/knitr/demo/externalization/
+# https://github.com/yihui/knitr-examples
+
+
+
+# log environment
+sessionInfo()
+```
+
+```
+## R version 3.4.1 (2017-06-30)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 15063)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] methods   stats     graphics  grDevices utils     datasets  base     
+## 
+## other attached packages:
+## [1] ggplot2_2.2.1     dplyr_0.7.4       data.table_1.10.4 RCurl_1.95-4.8   
+## [5] bitops_1.0-6      knitr_1.17       
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.13     bindr_0.1        magrittr_1.5     munsell_0.4.3   
+##  [5] colorspace_1.3-2 R6_2.2.2         rlang_0.1.2      highr_0.6       
+##  [9] stringr_1.2.0    plyr_1.8.4       tools_3.4.1      grid_3.4.1      
+## [13] gtable_0.2.0     lazyeval_0.2.0   yaml_2.1.14      assertthat_0.2.0
+## [17] tibble_1.3.4     bindrcpp_0.2     glue_1.1.1       evaluate_0.10.1 
+## [21] labeling_0.3     stringi_1.1.5    compiler_3.4.1   scales_0.5.0    
+## [25] pkgconfig_2.0.1
+```
+
+
+## Beer and Brewery Analysis
+
+
+```r
+beer_world <- merge(beers, breweries, by = "Brewery_id")
+names(beer_world)[names(beer_world) == "Name.x"] <- "Beer_Name"
+names(beer_world)[names(beer_world) == "Name.y"] <- "Brewery_Name"
+
+
+summary(beer_world)
+```
+
+```
+##    Brewery_id                     Beer_Name       Beer_ID      
+##  Min.   :  1.0   Nonstop Hef Hop       :  12   Min.   :   1.0  
+##  1st Qu.: 94.0   Dale's Pale Ale       :   6   1st Qu.: 808.2  
+##  Median :206.0   Oktoberfest           :   6   Median :1453.5  
+##  Mean   :232.7   Longboard Island Lager:   4   Mean   :1431.1  
+##  3rd Qu.:367.0   1327 Pod's ESB        :   3   3rd Qu.:2075.8  
+##  Max.   :558.0   Boston Lager          :   3   Max.   :2692.0  
+##                  (Other)               :2376                   
+##       ABV               IBU                                    Style     
+##  Min.   :0.00100   Min.   :  4.00   American IPA                  : 424  
+##  1st Qu.:0.05000   1st Qu.: 21.00   American Pale Ale (APA)       : 245  
+##  Median :0.05600   Median : 35.00   American Amber / Red Ale      : 133  
+##  Mean   :0.05977   Mean   : 42.71   American Blonde Ale           : 108  
+##  3rd Qu.:0.06700   3rd Qu.: 64.00   American Double / Imperial IPA: 105  
+##  Max.   :0.12800   Max.   :138.00   American Pale Wheat Ale       :  97  
+##  NA's   :62        NA's   :1005     (Other)                       :1298  
+##      Ounces      Brewery_Name                 City         State          
+##  Min.   : 8.40   Length:2410        Grand Rapids:  66   Length:2410       
+##  1st Qu.:12.00   Class :character   Portland    :  64   Class :character  
+##  Median :12.00   Mode  :character   Chicago     :  55   Mode  :character  
+##  Mean   :13.59                      Indianapolis:  43                     
+##  3rd Qu.:16.00                      San Diego   :  42                     
+##  Max.   :32.00                      Boulder     :  41                     
+##                                     (Other)     :2099
+```
+
+
+
+### Breweries and IBU by state
+
+
+```r
+library(ggplot2)
+
+p <- ggplot(beer_world, aes(x = IBU)) + geom_freqpoly(binwidth = 3, na.rm = TRUE) + facet_wrap(~State)
+p
+```
+
+![plot of chunk beer_analysis_graphs](figure/beer_analysis_graphs-1.png)
+
+
+
+## Information
+
+
+
+
+
+
+
+
+## Customer
+
+
+
+## Demographics
+
+
 ## Reproducible Research
 
 Include the session info, e.g. this document is produced with **knitr**. 
@@ -438,16 +619,17 @@ print(sessionInfo(), locale=FALSE)
 ## [1] methods   stats     graphics  grDevices utils     datasets  base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.2.1     dplyr_0.7.2       data.table_1.10.4 RCurl_1.95-4.8   
+## [1] ggplot2_2.2.1     dplyr_0.7.4       data.table_1.10.4 RCurl_1.95-4.8   
 ## [5] bitops_1.0-6      knitr_1.17       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.12     bindr_0.1        magrittr_1.5     munsell_0.4.3   
+##  [1] Rcpp_0.12.13     bindr_0.1        magrittr_1.5     munsell_0.4.3   
 ##  [5] colorspace_1.3-2 R6_2.2.2         rlang_0.1.2      highr_0.6       
 ##  [9] stringr_1.2.0    plyr_1.8.4       tools_3.4.1      grid_3.4.1      
-## [13] gtable_0.2.0     lazyeval_0.2.0   assertthat_0.2.0 tibble_1.3.4    
-## [17] bindrcpp_0.2     glue_1.1.1       evaluate_0.10.1  labeling_0.3    
-## [21] stringi_1.1.5    compiler_3.4.1   scales_0.5.0     pkgconfig_2.0.1
+## [13] gtable_0.2.0     lazyeval_0.2.0   yaml_2.1.14      assertthat_0.2.0
+## [17] tibble_1.3.4     bindrcpp_0.2     glue_1.1.1       evaluate_0.10.1 
+## [21] labeling_0.3     stringi_1.1.5    compiler_3.4.1   scales_0.5.0    
+## [25] pkgconfig_2.0.1
 ```
 
 
