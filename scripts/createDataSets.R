@@ -1,6 +1,8 @@
 # data sets
 # script testing
 
+library(ggplot2)
+
 # use here package to help with project structure
 # devtools::install_github("krlmlr/here")
 library(here)
