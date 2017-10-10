@@ -579,6 +579,61 @@ p
 
 ![plot of chunk beer_analysis_graphs](figure/beer_analysis_graphs-1.png)
 
+### Bitter beers
+
+
+```r
+# data sets
+# script testing
+
+source("../scripts/dataSetup.R")
+
+# Create a data set for bitterness
+bitterBeer <- subset(beers,!(is.na(beers$IBU))) 
+
+# Aggregate instances, IBU, ABV by style
+instances <- table(bitterBeer$Style)
+instances <- as.data.frame(instances)
+instances <- subset(instances, instances$Freq > 0)
+
+means1 <- aggregate(IBU~Style, bitterBeer, mean)
+means2 <- aggregate(ABV~Style, bitterBeer, mean)
+means3 <- instances$Freq
+
+means1$ABV <- means2$ABV
+means1$instance <- means3
+means1 <- means1[order(-means1$instance),]
+
+# top 10 style of beer
+head(means1, n = 10)
+```
+
+```
+##                             Style      IBU        ABV instance
+## 16                   American IPA 67.63455 0.06480731      301
+## 17        American Pale Ale (APA) 44.94118 0.05497386      153
+## 5        American Amber / Red Ale 36.29870 0.05719481       77
+## 12 American Double / Imperial IPA 93.32000 0.08769333       75
+## 9             American Blonde Ale 20.98361 0.05014754       61
+## 19        American Pale Wheat Ale 20.68852 0.04755738       61
+## 21                American Porter 31.92308 0.06033333       39
+## 10             American Brown Ale 29.89474 0.05784211       38
+## 57         Fruit / Vegetable Beer 14.20000 0.05133333       30
+## 61                     Hefeweizen 17.59259 0.05162963       27
+```
+
+```r
+#reorder in order of instances
+means1$Style <- factor(means1$Style, levels = means1$Style[order(-means1$instance)])
+
+#bar plot of results
+ggplot(data=means1, aes(x=Style, y=instance)) +
+  geom_bar(stat="identity", fill="#ff0000") + xlab("Beer Style") + ylab("Number of Beers Produced") +
+  ggtitle("Styles of Beer")+ theme(axis.text.x  = element_text(angle=90, vjust=.5, hjust = 1,size=5))
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
+
 
 
 ## Information

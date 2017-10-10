@@ -45,6 +45,13 @@ p
 
 ```
 
+### Bitter beers
+
+```{r, code=readLines("./scripts/createDataSets.R")}
+
+# not sure yet how to read/pass data
+```
+
 
 
 ## Information
