@@ -61,16 +61,16 @@ ListOfStates <- data.frame(lapply(ListOfStates, as.character), stringsAsFactors=
 as.character(ListOfStates)
 ListOfStates <- gsub(" ", "", ListOfStates, fixed = TRUE)
 ```
-## Compute the median Alcohol Beverage Content (ABV) and international bitterness unit (IBV) for each state.  Plot a bar chart to compare.
+## Compute the median Alcohol Beverage Content (ABV) and international bitterness unit (IBU) for each state.  Plot a bar chart to compare.
 ```{r, ECHO=TRUE}
 state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
-State_IBV <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
-ABV_IBV_Output <- merge(state_ABV, State_IBV, by=c('State'))
-ABV_IBV_Output
+State_IBU <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+ABV_IBU_Output <- merge(state_ABV, State_IBU, by=c('State'))
+ABV_IBU_Output
 ```
 ## Compute the number of beers in the state selected. Input State Desired.
 ```{r, ECHO=TRUE}
-StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateSelected <- c('SD') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 StateBeers <- mergedData[grep(StateSelected, mergedData$State),]
 StateBeers
 nrow(StateBeers)
@@ -78,14 +78,13 @@ nrow(StateBeers)
 
 ## Print State, number of Beers in the state, Median ABV/IBU in the state, and plot ABV/IBU with highlighted state
 ```{r, ECHO=TRUE}
-StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateSelected <- c('SD') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 library('plyr')
 ListOfStates <- sort(unique(mergedData$State))
 ListOfStates
 
-
 ## FUNCTION
-StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateSelected <- c('SD') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 StateQty <- data.frame(matrix(ncol = 2, nrow = 51))
 ColorOfPlot <- 0
 library(data.table)
@@ -103,11 +102,11 @@ ColorOfPlot[i] <- 'Red'
 }
 StateQty <- StateQty[order(-StateQty$Number),]#Orders from high to low based on number in brewery
 #StateQty
-ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the color of the state to stand out in plotting.
+ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the color of the state of interest to stand out in plotting.  Feeds into fill command in plot that follows.
 # Plots a histogram in decreasing order of beers per state with the state of interest highlighted
 library(ggplot2)
 ggplot(data=StateQty, aes(x=reorder(State, -Number), y=Number)) + geom_bar(stat = "identity", fill=ColorOfPlot) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("Number of Beers") + ggtitle("Number of Different Beers by State")
-}
+# }  function end. uncomment later.
 ```
 
 
