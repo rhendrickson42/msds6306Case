@@ -106,6 +106,17 @@ ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the 
 # Plots a histogram in decreasing order of beers per state with the state of interest highlighted
 library(ggplot2)
 ggplot(data=StateQty, aes(x=reorder(State, -Number), y=Number)) + geom_bar(stat = "identity", fill=ColorOfPlot) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("Number of Beers") + ggtitle("Number of Different Beers by State")
+
+# Loop to construct the color scheme for fill option in plotting median IBU by state
+ColorOfPlotIBU <- 0
+for(i in 1:51){
+ColorOfPlotIBU[i] <- 'Red'
+}
+State_IBU <- State_IBU[order(-State_IBU$IBU),]#Orders from high to low based on IBU
+ColorOfPlotIBU[which(grepl(StateSelected, State_IBU$State))] <- 'blue' 
+ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State")
+
+
 # }  function end. uncomment later.
 ```
 
