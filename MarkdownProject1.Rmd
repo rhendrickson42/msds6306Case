@@ -61,7 +61,7 @@ ListOfStates <- data.frame(lapply(ListOfStates, as.character), stringsAsFactors=
 as.character(ListOfStates)
 ListOfStates <- gsub(" ", "", ListOfStates, fixed = TRUE)
 ```
-## Compute the median Alcohol Beverage Content (ABV) and international bitterness unit (IBU) for each state.  Plot a bar chart to compare.
+## Compute the median Alcohol By Volume (ABV) and international bitterness unit (IBU) for each state.  Plot a bar chart to compare.
 ```{r, ECHO=TRUE}
 state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
 State_IBU <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
@@ -70,7 +70,7 @@ ABV_IBU_Output
 ```
 ## Compute the number of beers in the state selected. Input State Desired.
 ```{r, ECHO=TRUE}
-StateSelected <- c('SD') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 StateBeers <- mergedData[grep(StateSelected, mergedData$State),]
 StateBeers
 nrow(StateBeers)
@@ -78,13 +78,13 @@ nrow(StateBeers)
 
 ## Print State, number of Beers in the state, Median ABV/IBU in the state, and plot ABV/IBU with highlighted state
 ```{r, ECHO=TRUE}
-StateSelected <- c('SD') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 library('plyr')
 ListOfStates <- sort(unique(mergedData$State))
 ListOfStates
 
 ## FUNCTION
-StateSelected <- c('SD') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 StateQty <- data.frame(matrix(ncol = 2, nrow = 51))
 ColorOfPlot <- 0
 library(data.table)
@@ -113,9 +113,9 @@ for(i in 1:51){
 ColorOfPlotIBU[i] <- 'Red'
 }
 State_IBU <- State_IBU[order(-State_IBU$IBU),]#Orders from high to low based on IBU
+State_IBU[is.na(State_IBU)] <- 0
 ColorOfPlotIBU[which(grepl(StateSelected, State_IBU$State))] <- 'blue' 
-ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State")
-
+ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State") + labs(caption = "(*SD did not have any reported IBU values)")
 
 # }  function end. uncomment later.
 ```
