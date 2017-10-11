@@ -72,16 +72,18 @@ ABV_IBU_Output
 ```{r, ECHO=TRUE}
 StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 StateBeers <- mergedData[grep(StateSelected, mergedData$State),]
+BeersInStateOutput <- paste('There are', length(ListOfStates), ' Unique states in this data set and', nrow(StateBeers), 'unique beers in the state of', StateSelected)
+BeersInStateOutput
 StateBeers
-nrow(StateBeers)
 ```
 
-## Print State, number of Beers in the state, Median ABV/IBU in the state, and plot ABV/IBU with highlighted state
+## Input State desired.  Plots ABV and Median IBU with state highlighted
 ```{r, ECHO=TRUE}
 StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 library('plyr')
 ListOfStates <- sort(unique(mergedData$State))
 ListOfStates
+
 
 ## FUNCTION
 StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
@@ -100,6 +102,7 @@ StateBeers <- mergedData[grep(ListOfStates[i], mergedData$State),]
 StateQty$Number[i] <- nrow(StateBeers)
 ColorOfPlot[i] <- 'Red'
 }
+
 StateQty <- StateQty[order(-StateQty$Number),]#Orders from high to low based on number in brewery
 #StateQty
 ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the color of the state of interest to stand out in plotting.  Feeds into fill command in plot that follows.
@@ -121,54 +124,45 @@ ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "id
 ```
 
 
-Totals<-0 #initializing the vecor
-for(i in 1:51){
-  x<-dice(sides=6, reps=10)
-  Totals[i]<-x
-
-
-
-
-
 
 ```{r, ECHO=TRUE}
 # Function Setup and inputs
-StateReport <- function(StateOfInterest, Filename) {
-FileToRead <- paste(getwd(), '/', Filename, sep="")
-FileToRead
-SleepData <- read.csv(FileToRead)
+#StateReport <- function(StateOfInterest, Filename) {
+#FileToRead <- paste(getwd(), '/', Filename, sep="")
+#FileToRead
+#SleepData <- read.csv(FileToRead)
 
 # 3a. Create Objects
-MedianAge <- median(SleepData$Age, na.rm=TRUE) #Median Age Object
-MinDurationSleep <- min(SleepData$Duration, na.rm=TRUE) #Min Sleep Object
-MaxDurationSleep <- max(SleepData$Duration, na.rm=TRUE) # Max Sleep object
-MeanRSES <- mean(SleepData$RSES, na.rm=TRUE) # Mean RSES Object
-StdDevRSES <- sd(SleepData$RSES, na.rm=TRUE) # Standard Deviation of RSES Object
-SumObjects <- c(MedianAge, MinDurationSleep, MaxDurationSleep, MeanRSES, StdDevRSES)
-SumObjects #Creates one vector with all of the values.
+#MedianAge <- median(SleepData$Age, na.rm=TRUE) #Median Age Object
+#MinDurationSleep <- min(SleepData$Duration, na.rm=TRUE) #Min Sleep Object
+#MaxDurationSleep <- max(SleepData$Duration, na.rm=TRUE) # Max Sleep object
+#MeanRSES <- mean(SleepData$RSES, na.rm=TRUE) # Mean RSES Object
+#StdDevRSES <- sd(SleepData$RSES, na.rm=TRUE) # Standard Deviation of RSES Object
+#SumObjects <- c(MedianAge, MinDurationSleep, MaxDurationSleep, MeanRSES, StdDevRSES)
+#SumObjects #Creates one vector with all of the values.
 
 #3b. Create a data.frame
-report <- data.frame(MedianAge, MeanRSES/5, StdDevRSES/5, MaxDurationSleep - MinDurationSleep) # creates data frame with the requested data for question 3b.
-report
+#report <- data.frame(MedianAge, MeanRSES/5, StdDevRSES/5, MaxDurationSleep - MinDurationSleep) # creates data frame with the requested data for question 3b.
+#report
 
 #3c. Change the column names
-cnames <- c("MedianAge", "SelfEsteem", "SE_SD", "DurationRange")
-colnames(report) <- cnames
-report
+#cnames <- c("MedianAge", "SelfEsteem", "SE_SD", "DurationRange")
+#colnames(report) <- cnames
+#report
 
 #3d. Round the report to at most 2 digits
-report$SelfEsteem <- round(report$SelfEsteem, digits = 2)
-report$SE_SD <- round(report$SE_SD, digits = 2)
-report
-}
+#report$SelfEsteem <- round(report$SelfEsteem, digits = 2)
+#report$SE_SD <- round(report$SE_SD, digits = 2)
+#report
+#}
 ```
 
 3e Run Function
 
 ```{r, RunFunction, ECHO=TRUE}
-setwd("c:/Users/Jim/Google Drive/school/DoingD~1/Week3")
-Filename <- c('sleep_data_01.csv')
-SummaryReport(Filename)
+#setwd("c:/Users/Jim/Google Drive/school/DoingD~1/Week3")
+#Filename <- c('sleep_data_01.csv')
+#SummaryReport(Filename)
 ```
 
 
