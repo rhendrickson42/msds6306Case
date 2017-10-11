@@ -25,12 +25,6 @@ n_occur <- data.frame(table(Breweries$Name))# gives you a data frame with a list
 n_occur[n_occur$Freq > 1,]
 ```
 
-
-
-
-
-
-
 ##Merged data sets Print first 6 and last 6
 ```{r, ECHO=TRUE}
 setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
