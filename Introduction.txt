@@ -1,7 +1,9 @@
 INTRODUCTION
 The number of breweries in the United States has more than tripled in the last decade according to www.brewersassociation.org.  Along with this explosive growth the industry is becoming much more competitive.   For startup breweries it is important to understand the level of competition within the state and the preferences of the consumer in order to be successful.  BrewData Inc., a data science company specializing in brewery and beer data, is pleased to provide our client, Great-Beer Distributors Inc., with an easy to use R program which reports out specific beer and brewery data of interested by the state as well as national trends.
 
-CAPABILITIES OF PROGRAM
+CAPABILITIES AND DEMONSTRATION OF PROGRAM
+To illustrate the program capabilites BrewData Inc. has provided the following sample program output.   All you have to do is enter the state where indicated and the program will provide a report specific to the state entered.  A sample report for the state of Michigan, entered as 'MI', is provided below.
+
 Once the state is entered the program will output the following useful information:
 
 1. Number of different beers in each state highlighting how the selected state compares.  This provides insight into the level of competition in your state as well as an indication which states are "Brew Friendly."
@@ -16,10 +18,7 @@ Once the state is entered the program will output the following useful informati
 
 ******************Should we add any more?  (MAY DEPEND ON AVAIALBLE TIME) **************************************************
 
-DEMONSTRATION OF R PROGRAM
-To illustrate the program capabilites BrewData Inc. has provided the following sample program output.   All you have to do is enter the state where indicated and the program will provide a report specific to the state entered.  A sample report for the state of Michigan, entered as 'MI', is provided below.
 
-******************Enter Sample report here**************************
 
 
 
