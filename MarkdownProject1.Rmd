@@ -23,7 +23,7 @@ count(States) #Generates frequency table.  Number of Observations(breweries)/Sta
 ```
 
 ## Unit test for brewery names repeated
-```{r, ECHO=TRUE}
+```{r UnitTest_BreweriesByState, ECHO=TRUE}
 Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
 head(Breweries, n=25)
 length(unique(States)) #counts unique categories in major_count. 51 States represented
