@@ -1,6 +1,6 @@
 ---
 title: "MarkdownProject1"
-output: html_document
+output: md_document
 ---
 
 ## Number of Breweries by State
