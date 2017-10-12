@@ -1,8 +1,16 @@
 Number of Breweries by State
 ----------------------------
 
-    setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
-    Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+    # devtools::install_github("krlmlr/here")
+    library(here)
+
+    ## here() starts at D:/dataScience/doingDS/case-study01/branches/msds6306Case
+
+    # setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+    local_file1 <- here("data", "Breweries.csv")
+    local_file2 <- here("data", "Beers.csv")
+
+    Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
     head(Breweries, n=25)
 
     ##    Brew_ID                         Name          City State
@@ -33,6 +41,14 @@ Number of Breweries by State
     ## 25      25             Burn 'Em Brewing Michigan City    IN
 
     library('plyr') # to call the count command
+
+    ## 
+    ## Attaching package: 'plyr'
+
+    ## The following object is masked from 'package:here':
+    ## 
+    ##     here
+
     States <- (Breweries$State) #assigns variable to States
     count(States) #Generates frequency table.  Number of Observations(breweries)/State
 
@@ -92,8 +108,7 @@ Number of Breweries by State
 Unit test for brewery names repeated
 ------------------------------------
 
-    setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
-    Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+    Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
     head(Breweries, n=25)
 
     ##    Brew_ID                         Name          City State
@@ -146,10 +161,7 @@ Unit test for brewery names repeated
 Merged data sets Print first 6 and last 6
 -----------------------------------------
 
-    setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
-
-    Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
-    Beers <- read.csv("Beers.csv",sep=",", header = TRUE)
+    Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
     mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
     head(mergedData,n=6)
 

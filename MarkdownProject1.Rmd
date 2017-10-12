@@ -5,8 +5,16 @@ output: md_document
 
 ## Number of Breweries by State
 ```{r, ECHO=TRUE}
-setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
-Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+
+# devtools::install_github("krlmlr/here")
+library(here)
+
+
+# setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+local_file1 <- here("data", "Breweries.csv")
+local_file2 <- here("data", "Beers.csv")
+
+Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
 head(Breweries, n=25)
 
 library('plyr') # to call the count command
@@ -16,8 +24,7 @@ count(States) #Generates frequency table.  Number of Observations(breweries)/Sta
 
 ## Unit test for brewery names repeated
 ```{r, ECHO=TRUE}
-setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
-Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
 head(Breweries, n=25)
 length(unique(States)) #counts unique categories in major_count. 51 States represented
 length(unique(Breweries$Name))
@@ -27,10 +34,8 @@ n_occur[n_occur$Freq > 1,]
 
 ##Merged data sets Print first 6 and last 6
 ```{r, ECHO=TRUE}
-setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
 
-Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
-Beers <- read.csv("Beers.csv",sep=",", header = TRUE)
+Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
 mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
 head(mergedData,n=6)
 tail(mergedData, n=6)
