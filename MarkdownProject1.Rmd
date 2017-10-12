@@ -1,0 +1,157 @@
+---
+title: "MarkdownProject1"
+output: md_document
+---
+
+## Number of Breweries by State
+```{r, ECHO=TRUE}
+setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+head(Breweries, n=25)
+
+library('plyr') # to call the count command
+States <- (Breweries$State) #assigns variable to States
+count(States) #Generates frequency table.  Number of Observations(breweries)/State
+```
+
+## Unit test for brewery names repeated
+```{r, ECHO=TRUE}
+setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+head(Breweries, n=25)
+length(unique(States)) #counts unique categories in major_count. 51 States represented
+length(unique(Breweries$Name))
+n_occur <- data.frame(table(Breweries$Name))# gives you a data frame with a list of ids and the number of times they occurred.
+n_occur[n_occur$Freq > 1,]
+```
+
+##Merged data sets Print first 6 and last 6
+```{r, ECHO=TRUE}
+setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
+
+Breweries <- read.csv("Breweries.csv",sep=",", header = TRUE)
+Beers <- read.csv("Beers.csv",sep=",", header = TRUE)
+mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
+head(mergedData,n=6)
+tail(mergedData, n=6)
+```
+
+## Report the number of NA's in each column
+```{r, ECHO=TRUE}
+summary(mergedData)
+```
+IBU has 1005 NA's and ABV has 62 NA's.
+
+
+
+
+## FUNCTION BUILDING
+
+# Create list of States by alphabetical oarder for user to copy into function.
+```{r, ECHO=TRUE}
+library('plyr')
+ListOfStates <- sort(unique(mergedData$State))
+ListOfStates <- data.frame(lapply(ListOfStates, as.character), stringsAsFactors=FALSE)
+as.character(ListOfStates)
+ListOfStates <- gsub(" ", "", ListOfStates, fixed = TRUE) #Removes extra spaces that area not needed.
+```
+## Compute the median Alcohol By Volume (ABV) and international bitterness unit (IBU) for each state.  Plot a bar chart to compare.
+```{r, ECHO=TRUE}
+state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+State_IBU <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+ABV_IBU_Output <- merge(state_ABV, State_IBU, by=c('State'))
+ABV_IBU_Output
+```
+## Compute the number of beers in the state selected. Input State Desired.
+```{r, ECHO=TRUE}
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+StateBeers <- mergedData[grep(StateSelected, mergedData$State),]
+BeersInStateOutput <- paste('There are', length(ListOfStates), ' Unique states in this data set and', nrow(StateBeers), 'unique beers in the state of', StateSelected)
+BeersInStateOutput
+StateBeers
+```
+
+## Input State desired.  Plots ABV and Median IBU with state highlighted
+```{r, ECHO=TRUE}
+#FUNCTION START - UNCOMMENT LATER
+#StateOutput <- function (StateSelected, ListOfStates){
+StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
+library('plyr')
+ListOfStates <- sort(unique(mergedData$State))
+ListOfStates #Just a list of the states in alphabetical order assuming it may be needed by the application user.
+StateQty <- data.frame(matrix(ncol = 2, nrow = 51)) #Initiates data frame for loop
+ColorOfPlot <- 0 #Initiates vector for loop to be used to color code bar chart.
+library(data.table)
+setnames(StateQty, old = c('X1','X2'), new = c('State','Number')) #Changes the names of columns.
+
+#  Loop below builds a data frame with state, number of beers in each state, and color scheme for bar chart
+for(i in 1:51){
+StateQty$State[i] <- as.character(ListOfStates[i]) #Adds each state to the vector
+StateBeers <- mergedData[grep(ListOfStates[i], mergedData$State),]
+StateQty$Number[i] <- nrow(StateBeers)
+ColorOfPlot[i] <- 'Red' #Initializes all to the color red.
+}
+
+StateQty <- StateQty[order(-StateQty$Number),]#Orders from high to low based on number in brewery
+#StateQty
+ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the color of the state of interest to stand out in plotting.  Feeds into fill command in plot that follows.
+# Plots a histogram in decreasing order of beers per state with the state of interest highlighted
+library(ggplot2)
+ggplot(data=StateQty, aes(x=reorder(State, -Number), y=Number)) + geom_bar(stat = "identity", fill=ColorOfPlot) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("Number of Beers") + ggtitle("Number of Different Beers by State")
+
+# Loop to construct the color scheme for fill option in plotting median IBU by state
+ColorOfPlotIBU <- 0
+for(i in 1:51){
+ColorOfPlotIBU[i] <- 'Red'
+}
+State_IBU <- State_IBU[order(-State_IBU$IBU),]#Orders from high to low based on IBU
+State_IBU[is.na(State_IBU)] <- 0
+ColorOfPlotIBU[which(grepl(StateSelected, State_IBU$State))] <- 'blue' 
+ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State") + labs(caption = "(*SD did not have any reported IBU values)")
+
+# }  function end. uncomment later.
+```
+
+
+
+```{r, ECHO=TRUE}
+# Function Setup and inputs
+#StateReport <- function(StateOfInterest, Filename) {
+#FileToRead <- paste(getwd(), '/', Filename, sep="")
+#FileToRead
+#SleepData <- read.csv(FileToRead)
+
+# 3a. Create Objects
+#MedianAge <- median(SleepData$Age, na.rm=TRUE) #Median Age Object
+#MinDurationSleep <- min(SleepData$Duration, na.rm=TRUE) #Min Sleep Object
+#MaxDurationSleep <- max(SleepData$Duration, na.rm=TRUE) # Max Sleep object
+#MeanRSES <- mean(SleepData$RSES, na.rm=TRUE) # Mean RSES Object
+#StdDevRSES <- sd(SleepData$RSES, na.rm=TRUE) # Standard Deviation of RSES Object
+#SumObjects <- c(MedianAge, MinDurationSleep, MaxDurationSleep, MeanRSES, StdDevRSES)
+#SumObjects #Creates one vector with all of the values.
+
+#3b. Create a data.frame
+#report <- data.frame(MedianAge, MeanRSES/5, StdDevRSES/5, MaxDurationSleep - MinDurationSleep) # creates data frame with the requested data for question 3b.
+#report
+
+#3c. Change the column names
+#cnames <- c("MedianAge", "SelfEsteem", "SE_SD", "DurationRange")
+#colnames(report) <- cnames
+#report
+
+#3d. Round the report to at most 2 digits
+#report$SelfEsteem <- round(report$SelfEsteem, digits = 2)
+#report$SE_SD <- round(report$SE_SD, digits = 2)
+#report
+#}
+```
+
+3e Run Function
+
+```{r, RunFunction, ECHO=TRUE}
+#setwd("c:/Users/Jim/Google Drive/school/DoingD~1/Week3")
+#Filename <- c('sleep_data_01.csv')
+#SummaryReport(Filename)
+```
+
+
