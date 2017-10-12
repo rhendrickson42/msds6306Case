@@ -53,7 +53,7 @@ library('plyr')
 ListOfStates <- sort(unique(mergedData$State))
 ListOfStates <- data.frame(lapply(ListOfStates, as.character), stringsAsFactors=FALSE)
 as.character(ListOfStates)
-ListOfStates <- gsub(" ", "", ListOfStates, fixed = TRUE)
+ListOfStates <- gsub(" ", "", ListOfStates, fixed = TRUE) #Removes extra spaces that area not needed.
 ```
 ## Compute the median Alcohol By Volume (ABV) and international bitterness unit (IBU) for each state.  Plot a bar chart to compare.
 ```{r, ECHO=TRUE}
@@ -73,28 +73,23 @@ StateBeers
 
 ## Input State desired.  Plots ABV and Median IBU with state highlighted
 ```{r, ECHO=TRUE}
+#FUNCTION START - UNCOMMENT LATER
+#StateOutput <- function (StateSelected, ListOfStates){
 StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 library('plyr')
 ListOfStates <- sort(unique(mergedData$State))
-ListOfStates
-
-
-## FUNCTION
-StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
-StateQty <- data.frame(matrix(ncol = 2, nrow = 51))
-ColorOfPlot <- 0
+ListOfStates #Just a list of the states in alphabetical order assuming it may be needed by the application user.
+StateQty <- data.frame(matrix(ncol = 2, nrow = 51)) #Initiates data frame for loop
+ColorOfPlot <- 0 #Initiates vector for loop to be used to color code bar chart.
 library(data.table)
 setnames(StateQty, old = c('X1','X2'), new = c('State','Number')) #Changes the names of columns.
 
-#FUNCTION START - UNCOMMENT LATER
-#StateOutput <- function (StateSelected, ListOfStates){
- 
-#  Loop below builds a data frame with state and number of beers in each state
+#  Loop below builds a data frame with state, number of beers in each state, and color scheme for bar chart
 for(i in 1:51){
-StateQty$State[i] <- as.character(ListOfStates[i])
+StateQty$State[i] <- as.character(ListOfStates[i]) #Adds each state to the vector
 StateBeers <- mergedData[grep(ListOfStates[i], mergedData$State),]
 StateQty$Number[i] <- nrow(StateBeers)
-ColorOfPlot[i] <- 'Red'
+ColorOfPlot[i] <- 'Red' #Initializes all to the color red.
 }
 
 StateQty <- StateQty[order(-StateQty$Number),]#Orders from high to low based on number in brewery
