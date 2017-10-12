@@ -33,7 +33,7 @@ n_occur[n_occur$Freq > 1,]
 ```
 
 ##Merged data sets Print first 6 and last 6
-```{r, ECHO=TRUE}
+```{r Q2MergedData, ECHO=TRUE}
 
 Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
 mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
@@ -42,7 +42,7 @@ tail(mergedData, n=6)
 ```
 
 ## Report the number of NA's in each column
-```{r, ECHO=TRUE}
+```{r Q3NumberNAsInEachCol, ECHO=TRUE}
 summary(mergedData)
 ```
 IBU has 1005 NA's and ABV has 62 NA's.
@@ -53,7 +53,7 @@ IBU has 1005 NA's and ABV has 62 NA's.
 ## FUNCTION BUILDING
 
 # Create list of States by alphabetical oarder for user to copy into function.
-```{r, ECHO=TRUE}
+```{r StateListAphabetical, ECHO=TRUE}
 library('plyr')
 ListOfStates <- sort(unique(mergedData$State))
 ListOfStates <- data.frame(lapply(ListOfStates, as.character), stringsAsFactors=FALSE)
@@ -61,14 +61,14 @@ as.character(ListOfStates)
 ListOfStates <- gsub(" ", "", ListOfStates, fixed = TRUE) #Removes extra spaces that area not needed.
 ```
 ## Compute the median Alcohol By Volume (ABV) and international bitterness unit (IBU) for each state.  Plot a bar chart to compare.
-```{r, ECHO=TRUE}
+```{r StateABVIBUTable, ECHO=TRUE}
 state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
 State_IBU <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
 ABV_IBU_Output <- merge(state_ABV, State_IBU, by=c('State'))
 ABV_IBU_Output
 ```
 ## Compute the number of beers in the state selected. Input State Desired.
-```{r, ECHO=TRUE}
+```{r BeersInState, ECHO=TRUE}
 StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
 StateBeers <- mergedData[grep(StateSelected, mergedData$State),]
 BeersInStateOutput <- paste('There are', length(ListOfStates), ' Unique states in this data set and', nrow(StateBeers), 'unique beers in the state of', StateSelected)
@@ -77,7 +77,7 @@ StateBeers
 ```
 
 ## Input State desired.  Plots ABV and Median IBU with state highlighted
-```{r, ECHO=TRUE}
+```{r ABVIBUCharts, ECHO=TRUE}
 #FUNCTION START - UNCOMMENT LATER
 #StateOutput <- function (StateSelected, ListOfStates){
 StateSelected <- c('MI') #Copy and paste desited state inbetween the quotes here from list of States by alphabetical order.
