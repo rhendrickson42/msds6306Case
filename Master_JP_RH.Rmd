@@ -27,6 +27,15 @@ count(States) #Generates frequency table.  Number of Observations(breweries)/Sta
 ```
 
 2. Merge beer data with Breweries data and consolidate into one document. A printing of the first 6 observations and the last 6 observations are provided here as a sample of the output.
+```{r Q2MergedData, ECHO=TRUE}
+
+Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
+mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
+names(mergedData)[names(mergedData) == "Name.x"] <- "Brewery_Name"
+names(mergedData)[names(mergedData) == "Name.y"] <- "Beer_Name"
+head(mergedData,n=6)
+tail(mergedData, n=6)
+```
 
 
 3. Number of different beers in each state highlighting how the selected state compares.  This provides insight into the level of competition in your state as well as an indication which states are "Brew Friendly."
