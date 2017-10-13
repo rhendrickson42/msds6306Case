@@ -5,18 +5,13 @@ output: md_document
 
 ## Number of Breweries by State
 ```{r, ECHO=TRUE}
-
-# devtools::install_github("krlmlr/here")
+devtools::install_github("krlmlr/here") #Commented out because it is only need to install once.
 library(here)
-
-
 # setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
 local_file1 <- here("data", "Breweries.csv")
 local_file2 <- here("data", "Beers.csv")
-
 Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
 head(Breweries, n=25)
-
 library('plyr') # to call the count command
 States <- (Breweries$State) #assigns variable to States
 count(States) #Generates frequency table.  Number of Observations(breweries)/State
@@ -37,6 +32,8 @@ n_occur[n_occur$Freq > 1,]
 
 Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
 mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
+names(mergedData)[names(mergedData) == "Name.x"] <- "Brewery_Name"
+names(mergedData)[names(mergedData) == "Name.y"] <- "Beer_Name"
 head(mergedData,n=6)
 tail(mergedData, n=6)
 ```
