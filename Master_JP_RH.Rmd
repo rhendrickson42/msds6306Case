@@ -5,7 +5,7 @@ output: md_document
 
 #INTRODUCTION
 
-The number of breweries in the United States has more than tripled in the last decade according to www.brewersassociation.org.  Along with this explosive growth the industry is becoming much more competitive.   For startup breweries it is important to understand the level of competition within the state and the preferences of the consumer in order to be successful.  BrewData Inc., a data science company specializing in brewery and beer data, is pleased to provide our client, Great-Beer Distributors Inc. (GBDI), with an easy to use R program which reports out specific beer and brewery data of interested by the state as well as national trends.  As requested BrewData Inc. will conduct this work utilizing the data provided by GBDI.  Finally, GBDI has also asked BrewDAta Inc. to simplify the data provided by consolidating in to one merged data file.
+The number of breweries in the United States has more than tripled in the last decade according to www.brewersassociation.org.  Along with this explosive growth the industry is becoming much more competitive.   For startup breweries it is important to understand the level of competition within the state and the preferences of the consumer in order to be successful.  BrewData Inc., a data science company specializing in brewery and beer data, is pleased to provide our client, Great-Beer Distributors Inc. (GBDI), with an easy to use R program which reports out specific beer and brewery data of interested by the state as well as national trends.  As requested BrewData Inc. will conduct this work utilizing the data provided by GBDI.  Finally, GBDI has also asked BrewDAta Inc. to simplify the data provided by consolidating in to one merged data file and to identify missing data.
 
 CAPABILITIES AND DEMONSTRATION OF PROGRAM
 To illustrate the program capabilites BrewData Inc. has provided the following sample program output.   All all that is needed is to enter the state in the indicated location and the program will provide a report specific to the state entered.  A sample report for the state of Michigan, entered as 'MI', is provided below.
@@ -37,18 +37,22 @@ head(mergedData,n=6)
 tail(mergedData, n=6)
 ```
 
-
-3. Number of different beers in each state highlighting how the selected state compares.  This provides insight into the level of competition in your state as well as an indication which states are "Brew Friendly."
-
+3. Identification of missing data.  In this output missing data will be represented by an "NA" term.
 
 
-4. Number of beers in your state by style.  Are there too many Pilsners already in your state?
 
-5. An Alcohol by Volume (ABV) graphical comparison of the selected state to other states.  Is the market already saturated with high ABV beers in your state compared to others?
 
-6. An International Bitterness Units (IBU) graphical comparison of the selected state to other states.  Does your state already brew too many bitter beers?
+4. Number of different beers in each state highlighting how the selected state compares.  This provides insight into the level of competition in your state as well as an indication which states are "Brew Friendly."
 
-7. Relationship of ABV and IBU in the United States through a visual scatter-plot.  Do high ABV beers also tend to have high IBU or low IBU?
+
+
+5. Number of beers in your state by style.  Are there too many Pilsners already in your state?
+
+6. An Alcohol by Volume (ABV) graphical comparison of the selected state to other states.  Is the market already saturated with high ABV beers in your state compared to others?
+
+7. An International Bitterness Units (IBU) graphical comparison of the selected state to other states.  Does your state already brew too many bitter beers?
+
+8. Relationship of ABV and IBU in the United States through a visual scatter-plot.  Do high ABV beers also tend to have high IBU or low IBU?
 
 #******************Should we add any more?  (MAY DEPEND ON AVAIALBLE TIME) **************************************************
 
