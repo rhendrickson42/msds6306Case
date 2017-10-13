@@ -1,5 +1,9 @@
 ---
-title: "Master"
+title: "Case Study 01 - Beers"
+author: "Randall Hendrickson and Jim Park"
+date: "October 6, 2017"
+params:
+  state: "TX"
 output: md_document
 ---
 
@@ -10,25 +14,32 @@ The number of breweries in the United States has more than tripled in the last d
 CAPABILITIES AND DEMONSTRATION OF PROGRAM
 To illustrate the program capabilites BrewData Inc. has provided the following sample program output.   All all that is needed is to enter the state in the indicated location and the program will provide a report specific to the state entered.  A sample report for the state of Michigan, entered as 'MI', is provided below.
 
+TODO:File reference still required in bibliography.
+TODO:  Clear explicit answers to all questions.
+
+
 Once the state is entered the program will output the following useful information:
 
+
 1. Number of Breweries in each state.  This provides national context.
-```{r, ECHO=TRUE}
+```{r, ECHO = FALSE}
+StateSelected <- params$state
+#tateSelected <- c('MI') #Fill in desired state inbetween the quotes here from list of States by alphabetical order.
 # devtools::install_github("krlmlr/here")
 library(here)
-#setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
 local_file1 <- here("data", "Breweries.csv")
 local_file2 <- here("data", "Beers.csv")
 Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
-head(Breweries, n=25)
 library('plyr') # to call the count command
 States <- (Breweries$State) #assigns variable to States
+names(States)[names(States) == "x"] <- "State"
+names(States)[names(States) == "freq"] <- "frequency"
 count(States) #Generates frequency table.  Number of Observations(breweries)/State
 ```
 
+
 2. Merge beer data with Breweries data and consolidate into one document. A printing of the first 6 observations and the last 6 observations are provided here as a sample of the output.
 ```{r Q2MergedData, ECHO=TRUE}
-
 Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
 mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
 names(mergedData)[names(mergedData) == "Name.x"] <- "Brewery_Name"
@@ -39,20 +50,93 @@ tail(mergedData, n=6)
 
 3. Identification of missing data.  In this output missing data will be represented by an "NA" term.
 
+```{r question3}
+# report number of NAs
+num_NAs <- sapply(mergedData, function(x) sum(is.na(x)))
+num_NAs
+```
 
 
-
-4. Number of different beers in each state highlighting how the selected state compares.  This provides insight into the level of competition in your state as well as an indication which states are "Brew Friendly."
-
+4. Compute the median Alcohol By Volume content (ABV) and the International Bitterness Unite (IBU) for each state.
 
 
-5. Number of beers in your state by style.  Are there too many Pilsners already in your state?
+```{r ABVIBUCharts, ECHO=TRUE}
+state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+State_IBU <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+library('plyr')
+ListOfStates <- sort(unique(mergedData$State)) # Creates a list of the states in alphabetical order assuming it may be needed by the application user.
+StateQty <- data.frame(matrix(ncol = 2, nrow = 51)) #Initiates data frame for loop
+ColorOfPlot <- 0 #Initiates vector for loop to be used to color code bar chart.
+library(data.table)
+setnames(StateQty, old = c('X1','X2'), new = c('State','Number')) #Changes the names of columns.
 
-6. An Alcohol by Volume (ABV) graphical comparison of the selected state to other states.  Is the market already saturated with high ABV beers in your state compared to others?
+#  Loop below builds a data frame with state, number of beers in each state, and color scheme for bar chart
+for(i in 1:51){
+StateQty$State[i] <- as.character(ListOfStates[i]) #Adds each state to the vector
+StateBeers <- mergedData[grep(ListOfStates[i], mergedData$State),]
+StateQty$Number[i] <- nrow(StateBeers)
+ColorOfPlot[i] <- 'Red' #Initializes all to the color red.
+}
 
-7. An International Bitterness Units (IBU) graphical comparison of the selected state to other states.  Does your state already brew too many bitter beers?
+StateQty <- StateQty[order(-StateQty$Number),]#Orders from high to low based on number in brewery
+#StateQty
+ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the color of the state of interest to stand out in plotting.  Feeds into fill command in plot that follows.
+# Plots a histogram in decreasing order of beers per state with the state of interest highlighted
+library(ggplot2)
+ggplot(data=StateQty, aes(x=reorder(State, -Number), y=Number)) + geom_bar(stat = "identity", fill=ColorOfPlot) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("Number of Beers") + ggtitle("Number of Different Beers by State")
 
-8. Relationship of ABV and IBU in the United States through a visual scatter-plot.  Do high ABV beers also tend to have high IBU or low IBU?
+# Loop to construct the color scheme for fill option in plotting median IBU by state
+ColorOfPlotIBU <- 0
+for(i in 1:51){
+ColorOfPlotIBU[i] <- 'Red'
+}
+State_IBU <- State_IBU[order(-State_IBU$IBU),]#Orders from high to low based on IBU
+State_IBU[is.na(State_IBU)] <- 0
+ColorOfPlotIBU[which(grepl(StateSelected, State_IBU$State))] <- 'blue' 
+ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State") + labs(caption = "(*SD did not have any reported IBU values)")
+```
+
+
+5. Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
+The state with the highest (max) median ABV is District of Columbia (DC).
+The state with the highest (max) median IBU is Maine (ME).
+
+```{r question_5, ECHO=TRUE}
+
+# max ABV
+state_ABV[which.max(state_ABV$ABV),]
+
+# max IBU
+State_IBU[which.max(State_IBU$IBU),]
+
+```
+6. Summary statistics for the ABV variable.  TODO: Add description of how this fits the report.
+
+```{r question_6, ECHO=TRUE}
+
+summary(state_ABV)
+
+```
+
+7. Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot. TODO:How do we want to describe this trend?
+
+```{r beer_plot}
+
+ggplot(mergedData, aes(x = IBU, y = ABV)) + 
+  geom_point(colour = 'red', size = 1, na.rm=TRUE) + 
+  labs(title = "Relationship between Bitterness and Alcohol content", subtitle = "Is bitter better?") + 
+  labs(caption = "(based on data from ...?? where's the data from ??)") +
+  geom_smooth(method=lm, se=FALSE, size = 1, na.rm=TRUE)
+
+```
+
+
+8.TODO:  Add in if we have time. Number of different beers in each state highlighting how the selected state compares.  This provides insight into the level of competition in your state as well as an indication which states are "Brew Friendly." 
+
+
+9.TODO:  Add in if we have time. Number of beers in your state by style.  Are there too many Pilsners already in your state? 
+
+
 
 #******************Should we add any more?  (MAY DEPEND ON AVAIALBLE TIME) **************************************************
 
@@ -60,7 +144,4 @@ tail(mergedData, n=6)
 
 
 
-BACKGROUND BREWERY AND BEER STATISTICS
-Add other information here as background information
-
-CODE, ETC.
+TODO: CONCLUSION (Decide what to say in the conclusion and if we need to add any more code.)

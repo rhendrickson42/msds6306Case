@@ -22,6 +22,8 @@ location and the program will provide a report specific to the state
 entered. A sample report for the state of Michigan, entered as 'MI', is
 provided below.
 
+TODO:File reference still required in bibliography.
+
 Once the state is entered the program will output the following useful
 information:
 
@@ -29,44 +31,16 @@ information:
 
 <!-- -->
 
+    StateSelected <- params$state
+    #tateSelected <- c('MI') #Fill in desired state inbetween the quotes here from list of States by alphabetical order.
     # devtools::install_github("krlmlr/here")
     library(here)
 
     ## here() starts at C:/Users/Jim/Google Drive/School/DoingDataScience/BranchProject/msds6306Case
 
-    #setwd("C:/Users/Jim/Google Drive/School/DoingDataScience/Proj1")
     local_file1 <- here("data", "Breweries.csv")
     local_file2 <- here("data", "Beers.csv")
     Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
-    head(Breweries, n=25)
-
-    ##    Brew_ID                         Name          City State
-    ## 1        1           NorthGate Brewing    Minneapolis    MN
-    ## 2        2    Against the Grain Brewery    Louisville    KY
-    ## 3        3     Jack's Abby Craft Lagers    Framingham    MA
-    ## 4        4    Mike Hess Brewing Company     San Diego    CA
-    ## 5        5      Fort Point Beer Company San Francisco    CA
-    ## 6        6        COAST Brewing Company    Charleston    SC
-    ## 7        7 Great Divide Brewing Company        Denver    CO
-    ## 8        8             Tapistry Brewing      Bridgman    MI
-    ## 9        9             Big Lake Brewing       Holland    MI
-    ## 10      10   The Mitten Brewing Company  Grand Rapids    MI
-    ## 11      11               Brewery Vivant  Grand Rapids    MI
-    ## 12      12             Petoskey Brewing      Petoskey    MI
-    ## 13      13           Blackrocks Brewery     Marquette    MI
-    ## 14      14       Perrin Brewing Company Comstock Park    MI
-    ## 15      15  Witch's Hat Brewing Company    South Lyon    MI
-    ## 16      16     Founders Brewing Company  Grand Rapids    MI
-    ## 17      17            Flat 12 Bierwerks  Indianapolis    IN
-    ## 18      18      Tin Man Brewing Company    Evansville    IN
-    ## 19      19       Black Acre Brewing Co.  Indianapolis    IN
-    ## 20      20            Brew Link Brewing    Plainfield    IN
-    ## 21      21           Bare Hands Brewery       Granger    IN
-    ## 22      22          Three Pints Brewing  Martinsville    IN
-    ## 23      23        Four Fathers Brewing     Valparaiso    IN
-    ## 24      24         Indiana City Brewing  Indianapolis    IN
-    ## 25      25             Burn 'Em Brewing Michigan City    IN
-
     library('plyr') # to call the count command
 
     ## 
@@ -77,6 +51,8 @@ information:
     ##     here
 
     States <- (Breweries$State) #assigns variable to States
+    names(States)[names(States) == "x"] <- "State"
+    names(States)[names(States) == "freq"] <- "frequency"
     count(States) #Generates frequency table.  Number of Observations(breweries)/State
 
     ##      x freq
@@ -186,25 +162,116 @@ information:
 1.  Identification of missing data. In this output missing data will be
     represented by an "NA" term.
 
-2.  Number of different beers in each state highlighting how the
-    selected state compares. This provides insight into the level of
-    competition in your state as well as an indication which states are
-    "Brew Friendly."
+<!-- -->
 
-3.  Number of beers in your state by style. Are there too many Pilsners
-    already in your state?
+    # report number of NAs
+    num_NAs <- sapply(mergedData, function(x) sum(is.na(x)))
+    num_NAs
 
-4.  An Alcohol by Volume (ABV) graphical comparison of the selected
-    state to other states. Is the market already saturated with high ABV
-    beers in your state compared to others?
+    ##      Brew_ID Brewery_Name         City        State    Beer_Name 
+    ##            0            0            0            0            0 
+    ##      Beer_ID          ABV          IBU        Style       Ounces 
+    ##            0           62         1005            0            0
 
-5.  An International Bitterness Units (IBU) graphical comparison of the
-    selected state to other states. Does your state already brew too
-    many bitter beers?
+1.  Compute the median Alcohol By Volume content (ABV) and the
+    International Bitterness Unite (IBU) for each state.
 
-6.  Relationship of ABV and IBU in the United States through a
-    visual scatter-plot. Do high ABV beers also tend to have high IBU or
-    low IBU?
+<!-- -->
+
+    state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+    State_IBU <- aggregate(mergedData["IBU"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
+    library('plyr')
+    ListOfStates <- sort(unique(mergedData$State)) # Creates a list of the states in alphabetical order assuming it may be needed by the application user.
+    StateQty <- data.frame(matrix(ncol = 2, nrow = 51)) #Initiates data frame for loop
+    ColorOfPlot <- 0 #Initiates vector for loop to be used to color code bar chart.
+    library(data.table)
+    setnames(StateQty, old = c('X1','X2'), new = c('State','Number')) #Changes the names of columns.
+
+    #  Loop below builds a data frame with state, number of beers in each state, and color scheme for bar chart
+    for(i in 1:51){
+    StateQty$State[i] <- as.character(ListOfStates[i]) #Adds each state to the vector
+    StateBeers <- mergedData[grep(ListOfStates[i], mergedData$State),]
+    StateQty$Number[i] <- nrow(StateBeers)
+    ColorOfPlot[i] <- 'Red' #Initializes all to the color red.
+    }
+
+    StateQty <- StateQty[order(-StateQty$Number),]#Orders from high to low based on number in brewery
+    #StateQty
+    ColorOfPlot[which(grepl(StateSelected, StateQty$State))] <- 'blue' #Changes the color of the state of interest to stand out in plotting.  Feeds into fill command in plot that follows.
+    # Plots a histogram in decreasing order of beers per state with the state of interest highlighted
+    library(ggplot2)
+    ggplot(data=StateQty, aes(x=reorder(State, -Number), y=Number)) + geom_bar(stat = "identity", fill=ColorOfPlot) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("Number of Beers") + ggtitle("Number of Different Beers by State")
+
+![](Master_JP_RH_files/figure-markdown_strict/ABVIBUCharts-1.png)
+
+    # Loop to construct the color scheme for fill option in plotting median IBU by state
+    ColorOfPlotIBU <- 0
+    for(i in 1:51){
+    ColorOfPlotIBU[i] <- 'Red'
+    }
+    State_IBU <- State_IBU[order(-State_IBU$IBU),]#Orders from high to low based on IBU
+    State_IBU[is.na(State_IBU)] <- 0
+    ColorOfPlotIBU[which(grepl(StateSelected, State_IBU$State))] <- 'blue' 
+    ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State") + labs(caption = "(*SD did not have any reported IBU values)")
+
+![](Master_JP_RH_files/figure-markdown_strict/ABVIBUCharts-2.png)
+
+1.  Which state has the maximum alcoholic (ABV) beer? Which state has
+    the most bitter (IBU) beer? The state with the highest (max) median
+    ABV is District of Columbia (DC). The state with the highest (max)
+    median IBU is Maine (ME).
+
+<!-- -->
+
+    # max ABV
+    state_ABV[which.max(state_ABV$ABV),]
+
+    ##   State    ABV
+    ## 8    DC 0.0625
+
+    # max IBU
+    State_IBU[which.max(State_IBU$IBU),]
+
+    ##    State IBU
+    ## 22    ME  61
+
+1.  Summary statistics for the ABV variable. TODO: Add description of
+    how this fits the report.
+
+<!-- -->
+
+    summary(state_ABV)
+
+    ##      State         ABV         
+    ##   AK    : 1   Min.   :0.04000  
+    ##   AL    : 1   1st Qu.:0.05500  
+    ##   AR    : 1   Median :0.05600  
+    ##   AZ    : 1   Mean   :0.05585  
+    ##   CA    : 1   3rd Qu.:0.05800  
+    ##   CO    : 1   Max.   :0.06250  
+    ##  (Other):45
+
+1.  Is there an apparent relationship between the bitterness of the beer
+    and its alcoholic content? Draw a scatter plot. TODO:How do we want
+    to describe this trend?
+
+<!-- -->
+
+    ggplot(mergedData, aes(x = IBU, y = ABV)) + 
+      geom_point(colour = 'red', size = 1, na.rm=TRUE) + 
+      labs(title = "Relationship between Bitterness and Alcohol content", subtitle = "Is bitter better?") + 
+      labs(caption = "(based on data from ...?? where's the data from ??)") +
+      geom_smooth(method=lm, se=FALSE, size = 1, na.rm=TRUE)
+
+![](Master_JP_RH_files/figure-markdown_strict/beer_plot-1.png)
+
+8.TODO: Add in if we have time. Number of different beers in each state
+highlighting how the selected state compares. This provides insight into
+the level of competition in your state as well as an indication which
+states are "Brew Friendly."
+
+9.TODO: Add in if we have time. Number of beers in your state by style.
+Are there too many Pilsners already in your state?
 
 \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*Should we add any more? (MAY DEPEND ON AVAIALBLE TIME) \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
 ===============================================================================================================================================================================================
