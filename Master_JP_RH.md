@@ -22,7 +22,8 @@ location and the program will provide a report specific to the state
 entered. A sample report for the state of Michigan, entered as 'MI', is
 provided below.
 
-TODO:File reference still required in bibliography.
+TODO:File reference still required in bibliography. TODO: Clear explicit
+answers to all questions.
 
 Once the state is entered the program will output the following useful
 information:
@@ -276,7 +277,5 @@ Are there too many Pilsners already in your state?
 \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*Should we add any more? (MAY DEPEND ON AVAIALBLE TIME) \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
 ===============================================================================================================================================================================================
 
-BACKGROUND BREWERY AND BEER STATISTICS Add other information here as
-background information
-
-CODE, ETC.
+TODO: CONCLUSION (Decide what to say in the conclusion and if we need to
+add any more code.)
