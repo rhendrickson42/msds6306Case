@@ -11,3 +11,6 @@ Encoding: UTF-8
 
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
+
+BuildType: Makefile
+MakefilePath: D:/dataScience/doingDS/case-study01/msds6306Case

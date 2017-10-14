@@ -36,4 +36,5 @@ means1$Style <- factor(means1$Style, levels = means1$Style[order(-means1$instanc
 #bar plot of results
 ggplot(data=means1, aes(x=Style, y=instance)) +
   geom_bar(stat="identity", fill="#ff0000") + xlab("Beer Style") + ylab("Number of Beers Produced") +
-  ggtitle("Styles of Beer")+ theme(axis.text.x  = element_text(angle=90, vjust=.5, hjust = 1,size=5))
+  ggtitle("Styles of Beer") + theme(axis.text.x = element_text(angle=90, vjust=.5, hjust = 1,size=5))
+

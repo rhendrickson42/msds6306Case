@@ -9,10 +9,16 @@ params:
 
 ```{r setup_analysis, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(here)
+
+dataSetup_file <- here("scripts", "dataSetup.R")
+createDataSets_file <- here("scripts", "createDataSets.R")
+
 ```
 
 
-```{r, code=readLines("./scripts/DataSetup.R")}
+
+```{r, code=readLines(dataSetup_file)}
 
 # not sure yet how to read/pass data
 ```
@@ -47,7 +53,7 @@ p
 
 ### Bitter beers
 
-```{r, code=readLines("./scripts/createDataSets.R")}
+```{r, code=readLines(createDataSets_file)}
 
 # not sure yet how to read/pass data
 ```
