@@ -22,11 +22,11 @@ MARKDOWN_OUT_FILES = $(MARKDOWN_SOURCE:.Rmd=.html)
 all: $(OUT_FILES) $(MARKDOWN_OUT_FILES)
 
 $(RDIR)/%.Rout: $(RDIR)/%.R
-	rcmd BATCH $<
+	Rscript $<
 	@echo done...
 
 $(MARKDOWN_DIR)/%.html: $(MARKDOWN_DIR)/%.Rmd
-	Rscript.exe -e "library(rmarkdown); rmarkdown::render('$<')"
+	Rscript -e "library(rmarkdown); rmarkdown::render('$<')"
 	@echo done...
 
 clean:
