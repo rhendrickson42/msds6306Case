@@ -155,3 +155,5 @@ script_state_max_IBU
 # Summary of relationship
 ```
 
+To access data and code for this codebook, please fork us at:
+https://github.com/rhendrickson42/msds6306Case
