@@ -1,6 +1,6 @@
 ---
-title: "Case Study 01 - Beers"
-author: "Randall Hendrickson"
+title: "BrewData Case Study 01 - Beers"
+author: "Jim Park & Randall Hendrickson"
 date: "October 6, 2017"
 output: 
   html_document:

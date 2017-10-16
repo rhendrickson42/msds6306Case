@@ -12,6 +12,10 @@ BrewData Inc., a data science company specializing in brewery and beer data has 
 
 # Directory Structure
 
+### **Master_JP_RH.Rmd** <---- master document
+### **README.md** <----- this file
+### **codebook.Rmd**
+
 * scripts directory
     + dataSetup.R - R script to get data
     + createDataSets.R - R script to process data
@@ -30,10 +34,14 @@ BrewData Inc., a data science company specializing in brewery and beer data has 
 * Project Root
     + Bibliography_and_notes.Rmd
     + Case_Study_01_Beers.Rmd
-    + codebook.Rmd
+    + **codebook.Rmd**
     + Makefile
-    + Master_JP_RH.Rmd
+    + **Master_JP_RH.Rmd**
     + msds6306Case.Rproj
     + Proj1.Rproj
-    + README.md
+    + **README.md**
     
+    
+
+To access data and code for this codebook, please fork us at:
+https://github.com/rhendrickson42/msds6306Case
