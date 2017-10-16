@@ -12,16 +12,16 @@ dataSetup_script <- here("scripts", "dataSetup.R")
 source(dataSetup_script)
 
 # Create a data set for bitterness
-bitterBeer <- subset(beers,!(is.na(beers$IBU))) 
+script_bitter_beers <- subset(script_beers,!(is.na(script_beers$IBU))) 
 
 # Aggregate instances, IBU, ABV by style
-instances <- table(bitterBeer$Style)
-instances <- as.data.frame(instances)
-instances <- subset(instances, instances$Freq > 0)
+script_instances <- table(script_bitter_beers$Style)
+script_instances <- as.data.frame(script_instances)
+script_instances <- subset(script_instances, script_instances$Freq > 0)
 
-means1 <- aggregate(IBU~Style, bitterBeer, mean)
-means2 <- aggregate(ABV~Style, bitterBeer, mean)
-means3 <- instances$Freq
+means1 <- aggregate(IBU~Style, script_bitter_beers, mean)
+means2 <- aggregate(ABV~Style, script_bitter_beers, mean)
+means3 <- script_instances$Freq
 
 means1$ABV <- means2$ABV
 means1$instance <- means3
