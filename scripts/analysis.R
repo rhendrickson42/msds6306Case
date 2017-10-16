@@ -52,7 +52,7 @@ script_state_ABV <- aggregate(script_beer_world["ABV"], by=script_beer_world[c("
 barplot(script_state_ABV$ABV, main="Beer ABV by State", names.arg = script_state_ABV$State, las=2)
 
 script_state_IBU <- aggregate(script_beer_world["IBU"], by=script_beer_world[c("State")], FUN=median, na.rm=TRUE)
-barplot(script_state_IBU$IBU, main="Beer IBU by State", names.arg = script_state_IBU$State)
+barplot(script_state_IBU$IBU, main="Beer IBU by State", names.arg = script_state_IBU$State, las=2)
 
 ## @knitr script_Analysis_Question5
 # Q5
