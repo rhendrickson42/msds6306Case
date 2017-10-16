@@ -185,11 +185,13 @@ StateCenterABV <-data.frame(matrix(ncol = 4, nrow = 51))
 #StateCenterABV <- data.frame(matrix(ncol=4, nrow=51)
 StateCenterABV <- merge(StateLatLong, state_ABV, by=c('State'))
 StateCenterABV
-plot(StateCenterABV$Latitude, StateCenterABV$ABV)
+
 cor.test(StateCenterABV$Latitude, StateCenterABV$ABV)
 lm(StateCenterABV$ABV~StateCenterABV$Latitude) #in the form Y=X
 myfit=lm(StateCenterABV$ABV~StateCenterABV$Latitude) #in the form Y=X
 myfit
+plot(StateCenterABV$Latitude, StateCenterABV$ABV)
+abline(lm(StateCenterABV$ABV~StateCenterABV$Latitude),col="blue",lwd=2)
 ```
 
 
