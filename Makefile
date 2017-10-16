@@ -32,6 +32,10 @@ $(RDIR)/%.Rout: $(RDIR)/%.R
 $(MARKDOWN_DIR)/%.html: $(MARKDOWN_DIR)/%.Rmd
 	Rscript -e "library(rmarkdown); rmarkdown::render('$<')"
 	@echo done...
+	
+$(CURRENT_DIR)/%.html: $(CURRENT_DIR)/%.Rmd
+	Rscript -e "library(rmarkdown); rmarkdown::render('$<')"
+	@echo done...
 
 clean:
 	rm -fv $(OUT_FILES)
