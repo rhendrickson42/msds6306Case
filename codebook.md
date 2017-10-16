@@ -1,6 +1,6 @@
-# Case Study 01 - Beers
-Randall Hendrickson  
-October 6, 2017  
+# BrewData Codebook ** Top Secret **
+Jim Park & Randall Hendrickson  
+October 13, 2017  
 
 
 ```r
@@ -13,7 +13,7 @@ if(!require("here")) cat("please install here package # devtools::install_github
 ```
 
 ```
-## here() starts at D:/dataScience/doingDS/case-study01/msds6306Case
+## here() starts at /Users/randy/repos/datascience/caseStudy/branches/master/msds6306Case
 ```
 
 ```r
@@ -25,22 +25,172 @@ source(dataSetup_script)
 ```
 
 ```
+## Loading required package: methods
+```
+
+```
 ## Loading required package: bitops
 ```
 
+## BrewData Codebook - Classified
+This codebook outlines the **"secret sauce"** for BrewData's technical apparatus.
+
+read chunk = dataSetup_script.R
+
+
+### 1. Script - **dataSetup.R**
+
+uses the @ knitr variable pattern to read the following
+
+- scriptDataSetup_files
+- scriptDataSetup_readFiles
+- scriptDataSetup_tidyBeersAndBreweries
+- scriptDataSetup_logsessionInfo
+
+#### 1. a. Locate the raw data files.
+
 ```r
-#source(analysis_script)
+library(RCurl)
+library(here) # see note1 in script for explanation
+# --- Raw data
+local_file1 <- here("data", "Breweries.csv")
+local_file2 <- here("data", "Beers.csv")
+```
+#### Result: 
+
+```r
+# the raw data files:
+sprintf("This returns two files: %s , %s", local_file1, local_file2)
 ```
 
-#### Case Study 01
+```
+## [1] "This returns two files: /Users/randy/repos/datascience/caseStudy/branches/master/msds6306Case/data/Breweries.csv , /Users/randy/repos/datascience/caseStudy/branches/master/msds6306Case/data/Beers.csv"
+```
 
-Beers
+#### 1. b. Read the data files
 
-#### Questions
+```r
+script_breweries <- read.csv(paste(local_file1), header = TRUE, sep = ",")
+script_beers <- read.csv(paste(local_file2), header = TRUE, sep = ",")
+```
+#### Result: 
+
+```r
+# This returns two data frames, beers and breweries
+# structure of beers
+str(script_beers)
+```
+
+```
+## 'data.frame':	2410 obs. of  7 variables:
+##  $ Name      : Factor w/ 2305 levels "#001 Golden Amber Lager",..: 1638 577 1704 1842 1819 268 1160 758 1093 486 ...
+##  $ Beer_ID   : int  1436 2265 2264 2263 2262 2261 2260 2259 2258 2131 ...
+##  $ ABV       : num  0.05 0.066 0.071 0.09 0.075 0.077 0.045 0.065 0.055 0.086 ...
+##  $ IBU       : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ Brewery_id: int  409 178 178 178 178 178 178 178 178 178 ...
+##  $ Style     : Factor w/ 100 levels "","Abbey Single Ale",..: 19 18 16 12 16 80 18 22 18 12 ...
+##  $ Ounces    : num  12 12 12 12 12 12 12 12 12 12 ...
+```
+
+```r
+colnames(script_beers)
+```
+
+```
+## [1] "Name"       "Beer_ID"    "ABV"        "IBU"        "Brewery_id"
+## [6] "Style"      "Ounces"
+```
+
+```r
+# structure of breweries
+str(script_breweries)
+```
+
+```
+## 'data.frame':	558 obs. of  4 variables:
+##  $ Brew_ID: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Name   : Factor w/ 551 levels "10 Barrel Brewing Company",..: 355 12 266 319 201 136 227 477 59 491 ...
+##  $ City   : Factor w/ 384 levels "Abingdon","Abita Springs",..: 228 200 122 299 300 62 91 48 152 136 ...
+##  $ State  : Factor w/ 51 levels " AK"," AL"," AR",..: 24 18 20 5 5 41 6 23 23 23 ...
+```
+
+```r
+colnames(script_breweries)
+```
+
+```
+## [1] "Brew_ID" "Name"    "City"    "State"
+```
+
+#### 1. c. tidy the data
+
+```r
+# tidy the data
+# 
+# TODO - remove strange characters seen in dataframe, whitespace, view data, verify #001 Golden Amber Lager beer name
+# from str(beer_world), also " AL", " AR", etc.
+
+colnames(script_breweries)[1] <- "Brewery_id"
+script_breweries$Name <- trimws(script_breweries$Name)
+script_breweries$State <- trimws(script_breweries$State)
+```
+#### Result: tidy data
+
+#### 1. d. Log sessionInfo
+
+```
+## R version 3.4.1 (2017-06-30)
+## Platform: x86_64-apple-darwin16.7.0 (64-bit)
+## Running under: macOS High Sierra 10.13
+## 
+## Matrix products: default
+## BLAS: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+## LAPACK: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] methods   stats     graphics  grDevices utils     datasets  base     
+## 
+## other attached packages:
+## [1] RCurl_1.95-4.8 bitops_1.0-6   knitr_1.17     here_0.1      
+## [5] rmarkdown_1.6 
+## 
+## loaded via a namespace (and not attached):
+##  [1] compiler_3.4.1  backports_1.1.1 magrittr_1.5    rprojroot_1.2  
+##  [5] tools_3.4.1     htmltools_0.3.6 yaml_2.1.14     Rcpp_0.12.13   
+##  [9] stringi_1.1.5   stringr_1.2.0   digest_0.6.12   evaluate_0.10.1
+```
 
 
+### 2. Script - **analysis.R**
 
-#### 1. How many breweries are present in each state?
+uses the @ knitr variable pattern to read the following
+
+- script_Analysis_Question1
+- script_Analysis_Question2
+- script_Analysis_Question3
+- script_Analysis_Question4
+- script_Analysis_Question5
+- script_Analysis_Question6
+- script_Analysis_Question7
+
+
+read chunk = analysis.R
+
+
+Questions:
+
+#### 2.1 How many breweries are present in each state?
+
+```r
+# Q1
+# 1. How many breweries are present in each state?
+
+library(data.table)
+library(dplyr)
+```
 
 ```
 ## 
@@ -63,6 +213,17 @@ Beers
 ## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
+```
+
+```r
+library(ggplot2)
+
+number_breweries_byState <- setDT(script_breweries)[, .(count = uniqueN(Brewery_id)), by = State]
+setorder(number_breweries_byState, State)
+
+# verify using dplyr
+number_breweries_byState_dplyr <- script_breweries
+number_breweries_byState_dplyr %>% group_by(State) %>% summarize(count=n()) %>% print(n = 100)
 ```
 
 ```
@@ -121,7 +282,7 @@ Beers
 ## 50    WV     1
 ## 51    WY     4
 ```
-
+#### Result: 
 
 ```r
 number_breweries_byState
@@ -183,9 +344,18 @@ number_breweries_byState
 ##     State count
 ```
 
-#### 2. Merge beer data with the brewery data.
+#### 2.2 Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
 
+```r
+# 2. Merge beer data with the brewery data.
+# Q2
+# merge beer data and brewery data. Print first and last 6 observations to check the merged file.
 
+script_beer_world <- merge(script_beers, script_breweries, by = "Brewery_id")
+names(script_beer_world)[names(script_beer_world) == "Name.x"] <- "Beer_Name"
+names(script_beer_world)[names(script_beer_world) == "Name.y"] <- "Brewery_Name"
+```
+#### Result: 
 
 ```r
 # print first 6 observations
@@ -245,9 +415,15 @@ tail(script_beer_world, 6)
 ## 2410     Anchorage    AK
 ```
 
-#### 3. Report the number of NS's in each column
+#### 2.3 Report the number of NA's in each column.
 
+```r
+# Q3
+# Report the number of NS's in each column
 
+num_NAs <- sapply(script_beer_world, function(x) sum(is.na(x)))
+```
+#### Result: 
 
 ```r
 # report number of NAs
@@ -261,7 +437,7 @@ num_NAs
 ##            0            0            0            0            0
 ```
 
-#### 4. Compute the median alcohol content and international bitterness unit for each state.
+#### 2.4 Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare. 
 
 ```r
 # Q4
@@ -271,18 +447,30 @@ script_state_ABV <- aggregate(script_beer_world["ABV"], by=script_beer_world[c("
 barplot(script_state_ABV$ABV, main="Beer ABV by State", names.arg = script_state_ABV$State)
 ```
 
-![](Case_Study_01_Beers_files/figure-html/script_Analysis_Question4-1.png)<!-- -->
+![](codebook_files/figure-html/script_Analysis_Question4-1.png)<!-- -->
 
 ```r
 script_state_IBU <- aggregate(script_beer_world["IBU"], by=script_beer_world[c("State")], FUN=median, na.rm=TRUE)
 barplot(script_state_IBU$IBU, main="Beer IBU by State", names.arg = script_state_IBU$State)
 ```
 
-![](Case_Study_01_Beers_files/figure-html/script_Analysis_Question4-2.png)<!-- -->
+![](codebook_files/figure-html/script_Analysis_Question4-2.png)<!-- -->
+#### Result: 
 
-#### 5. Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
 
+#### 2.5 Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
 
+```r
+# Q5
+# Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
+
+# max ABV
+script_state_max_ABV <- script_state_ABV[which.max(script_state_ABV$ABV),]
+
+# max IBU
+script_state_max_IBU <- script_state_IBU[which.max(script_state_IBU$IBU),]
+```
+#### Result: 
 
 ```r
 # max ABV
@@ -304,7 +492,7 @@ script_state_max_IBU
 ## 22    ME  61
 ```
 
-#### 6. Summary statistics for the ABV variable.
+#### 2.6 Summary statistics for the ABV variable.
 
 ```r
 # Q6
@@ -321,8 +509,13 @@ summary(script_state_ABV)
 ##                     3rd Qu.:0.05800  
 ##                     Max.   :0.06250
 ```
+#### Result: 
 
-#### 7. Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
+```r
+# printed summary of ABV
+```
+
+#### 2.7 Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot. Make your best judgment of a relationship and EXPLAIN your answer.
 
 ```r
 # Q7
@@ -335,7 +528,7 @@ ggplot(script_beer_world, aes(x = IBU, y = ABV)) +
   geom_smooth(method=lm, se=FALSE, size = 1, na.rm=TRUE)
 ```
 
-![](Case_Study_01_Beers_files/figure-html/script_Analysis_Question7-1.png)<!-- -->
+![](codebook_files/figure-html/script_Analysis_Question7-1.png)<!-- -->
 
 ```r
 # TODO
@@ -348,219 +541,9 @@ ggplot(script_beer_world, aes(x = IBU, y = ABV)) +
 #```{r child = './markdown/customer.Rmd'}
 #```
 ```
-
-
-
-
-```
-## This is the state to analyze: TX
-```
-
-
-
-
-
-
-read chunk = dataSetup_script.R
+#### Result: 
 
 ```r
-read_chunk(paste(dataSetup_script))
+# Summary of relationship
 ```
-
-read chunk = analysis.R
-
-```r
-read_chunk(paste(analysis_script))
-```
-
-
-## Beer and Brewery Analysis
-
-
-```r
-summary(script_beer_world)
-```
-
-```
-##    Brewery_id                     Beer_Name       Beer_ID      
-##  Min.   :  1.0   Nonstop Hef Hop       :  12   Min.   :   1.0  
-##  1st Qu.: 94.0   Dale's Pale Ale       :   6   1st Qu.: 808.2  
-##  Median :206.0   Oktoberfest           :   6   Median :1453.5  
-##  Mean   :232.7   Longboard Island Lager:   4   Mean   :1431.1  
-##  3rd Qu.:367.0   1327 Pod's ESB        :   3   3rd Qu.:2075.8  
-##  Max.   :558.0   Boston Lager          :   3   Max.   :2692.0  
-##                  (Other)               :2376                   
-##       ABV               IBU                                    Style     
-##  Min.   :0.00100   Min.   :  4.00   American IPA                  : 424  
-##  1st Qu.:0.05000   1st Qu.: 21.00   American Pale Ale (APA)       : 245  
-##  Median :0.05600   Median : 35.00   American Amber / Red Ale      : 133  
-##  Mean   :0.05977   Mean   : 42.71   American Blonde Ale           : 108  
-##  3rd Qu.:0.06700   3rd Qu.: 64.00   American Double / Imperial IPA: 105  
-##  Max.   :0.12800   Max.   :138.00   American Pale Wheat Ale       :  97  
-##  NA's   :62        NA's   :1005     (Other)                       :1298  
-##      Ounces      Brewery_Name                 City         State          
-##  Min.   : 8.40   Length:2410        Grand Rapids:  66   Length:2410       
-##  1st Qu.:12.00   Class :character   Portland    :  64   Class :character  
-##  Median :12.00   Mode  :character   Chicago     :  55   Mode  :character  
-##  Mean   :13.59                      Indianapolis:  43                     
-##  3rd Qu.:16.00                      San Diego   :  42                     
-##  Max.   :32.00                      Boulder     :  41                     
-##                                     (Other)     :2099
-```
-
-
-
-### Breweries and IBU by state
-
-
-```r
-library(ggplot2)
-
-# State to watch
-state_to_watch <- params$state
-state_to_watch
-```
-
-```
-## [1] "TX"
-```
-
-```r
-p <- ggplot(script_beer_world, aes(x = IBU)) + geom_freqpoly(binwidth = 3, na.rm = TRUE) + facet_wrap(~State)
-p
-```
-
-![](Case_Study_01_Beers_files/figure-html/beer_analysis_graphs-1.png)<!-- -->
-
-### Bitter beers
-
-
-```r
-# data sets
-# script testing
-
-library(ggplot2)
-
-# use here package to help with project structure
-# devtools::install_github("krlmlr/here")
-library(here)
-
-dataSetup_script <- here("scripts", "dataSetup.R")
-
-source(dataSetup_script)
-
-# Create a data set for bitterness
-script_bitter_beers <- subset(script_beers,!(is.na(script_beers$IBU))) 
-
-# Aggregate instances, IBU, ABV by style
-script_instances <- table(script_bitter_beers$Style)
-script_instances <- as.data.frame(script_instances)
-script_instances <- subset(script_instances, script_instances$Freq > 0)
-
-means1 <- aggregate(IBU~Style, script_bitter_beers, mean)
-means2 <- aggregate(ABV~Style, script_bitter_beers, mean)
-means3 <- script_instances$Freq
-
-means1$ABV <- means2$ABV
-means1$instance <- means3
-means1 <- means1[order(-means1$instance),]
-
-# top 10 style of beer
-head(means1, n = 10)
-```
-
-```
-##                             Style      IBU        ABV instance
-## 16                   American IPA 67.63455 0.06480731      301
-## 17        American Pale Ale (APA) 44.94118 0.05497386      153
-## 5        American Amber / Red Ale 36.29870 0.05719481       77
-## 12 American Double / Imperial IPA 93.32000 0.08769333       75
-## 9             American Blonde Ale 20.98361 0.05014754       61
-## 19        American Pale Wheat Ale 20.68852 0.04755738       61
-## 21                American Porter 31.92308 0.06033333       39
-## 10             American Brown Ale 29.89474 0.05784211       38
-## 57         Fruit / Vegetable Beer 14.20000 0.05133333       30
-## 61                     Hefeweizen 17.59259 0.05162963       27
-```
-
-```r
-#reorder in order of instances
-means1$Style <- factor(means1$Style, levels = means1$Style[order(-means1$instance)])
-
-#bar plot of results
-ggplot(data=means1, aes(x=Style, y=instance)) +
-  geom_bar(stat="identity", fill="#ff0000") + xlab("Beer Style") + ylab("Number of Beers Produced") +
-  ggtitle("Styles of Beer") + theme(axis.text.x = element_text(angle=90, vjust=.5, hjust = 1,size=5))
-```
-
-![](Case_Study_01_Beers_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
-
-
-
-## Information
-
-From the above plot, we see the state of:
-
-```r
-# State to watch
-state_to_watch <- params$state
-state_to_watch
-```
-
-```
-## [1] "TX"
-```
-
-Has some interesting data.
-
-
-
-
-
-## Customer
-
-
-
-## Demographics
-
-
-## Reproducible Research
-
-Include the session info, e.g. this document is produced with **knitr**. 
-Here is the session info:
-
-
-
-```r
-print(sessionInfo(), locale=FALSE)
-```
-
-```
-## R version 3.4.2 (2017-09-28)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 15063)
-## 
-## Matrix products: default
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] ggplot2_2.2.1       dplyr_0.7.4         data.table_1.10.4-1
-## [4] RCurl_1.95-4.8      bitops_1.0-6        knitr_1.17         
-## [7] here_0.1           
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.13     bindr_0.1        magrittr_1.5     munsell_0.4.3   
-##  [5] colorspace_1.3-2 R6_2.2.2         rlang_0.1.2      plyr_1.8.4      
-##  [9] stringr_1.2.0    tools_3.4.2      grid_3.4.2       gtable_0.2.0    
-## [13] htmltools_0.3.6  lazyeval_0.2.0   yaml_2.1.14      rprojroot_1.2   
-## [17] digest_0.6.12    assertthat_0.2.0 tibble_1.3.4     bindrcpp_0.2    
-## [21] glue_1.1.1       evaluate_0.10.1  rmarkdown_1.6    labeling_0.3    
-## [25] stringi_1.1.5    compiler_3.4.2   scales_0.5.0     backports_1.1.1 
-## [29] pkgconfig_2.0.1
-```
-
-
-
 
