@@ -44,9 +44,11 @@ Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
 mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
 names(mergedData)[names(mergedData) == "Name.x"] <- "Brewery_Name"
 names(mergedData)[names(mergedData) == "Name.y"] <- "Beer_Name"
+mergedData$State <- gsub(" ", "", mergedData$State, fixed = TRUE) #Removes extra spaces that area not needed.
 head(mergedData,n=6)
 tail(mergedData, n=6)
 ```
+
 
 3. Identification of missing data.  In this output missing data will be represented by an "NA" term.
 
@@ -136,7 +138,29 @@ ggplot(mergedData, aes(x = IBU, y = ABV)) +
 
 9.TODO:  Add in if we have time. Number of beers in your state by style.  Are there too many Pilsners already in your state? 
 
+10. ABV preference by Latitude and Longitude of centroid of State.
 
+```{r LatLong, ECHO=TRUE}
+StateLatLong <- data.frame(matrix(ncol = 3, nrow = 50))
+sa <- as.data.frame(state.abb)
+names(sa)[names(sa) == "state.abb"] <- "State"
+sc <- as.data.frame(state.center)
+StateLatLong <- cbind(sa,sc)
+names(StateLatLong)[names(StateLatLong) == "x"] <- "Longitude"
+names(StateLatLong)[names(StateLatLong) == "y"] <- "Latitude"
+StateLatLong$State <- as.character(as.factor(StateLatLong$State))
+
+state_ABV$State <- as.character(as.factor(state_ABV$State))
+StateLatLong <- rbind(StateLatLong, c("DC", -77.0369, 38.9072)) #Adds DC to the list
+StateLatLong$Longitude <- as.numeric(as.character(StateLatLong$Longitude))
+StateLatLong$Latitude <- as.numeric(as.character(StateLatLong$Latitude))
+StateLatLong <- StateLatLong[order(StateLatLong$State),]
+
+StateCenterABV <-data.frame(matrix(ncol = 4, nrow = 51))
+#StateCenterABV <- data.frame(matrix(ncol=4, nrow=51)
+StateCenterABV <- merge(StateLatLong, state_ABV, by=c('State'))
+StateCenterABV
+```
 
 #******************Should we add any more?  (MAY DEPEND ON AVAIALBLE TIME) **************************************************
 
