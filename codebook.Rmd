@@ -1,0 +1,157 @@
+---
+title: "BrewData Codebook ** Top Secret **"
+author: "Jim Park & Randall Hendrickson"
+date: "October 13, 2017"
+output: 
+   html_document:
+      keep_md: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = FALSE)
+if(!require("here")) cat("please install here package # devtools::install_github(\"krlmlr/here\")")
+library(knitr)
+library(here)
+dataSetup_script <- here("scripts", "dataSetup.R")
+analysis_script <- here("scripts", "analysis.R")
+source(dataSetup_script)
+```
+
+## BrewData Codebook - Classified
+This codebook outlines the **"secret sauce"** for BrewData's technical apparatus.
+
+read chunk = dataSetup_script.R
+```{r setup_codebook}
+read_chunk(paste(dataSetup_script))
+```
+
+### 1. Script - **dataSetup.R**
+
+uses the @ knitr variable pattern to read the following
+
+- scriptDataSetup_files
+- scriptDataSetup_readFiles
+- scriptDataSetup_tidyBeersAndBreweries
+- scriptDataSetup_logsessionInfo
+
+#### 1. a. Locate the raw data files.
+```{r scriptDataSetup_files, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+# the raw data files:
+sprintf("This returns two files: %s , %s", local_file1, local_file2)
+```
+
+#### 1. b. Read the data files
+```{r scriptDataSetup_readFiles, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+# This returns two data frames, beers and breweries
+# structure of beers
+str(script_beers)
+colnames(script_beers)
+# structure of breweries
+str(script_breweries)
+colnames(script_breweries)
+```
+
+#### 1. c. tidy the data
+```{r scriptDataSetup_tidyBeersAndBreweries, echo=TRUE}
+```
+#### Result: tidy data
+
+#### 1. d. Log sessionInfo
+```{r scriptDataSetup_logsessionInfo, echo=FALSE}
+```
+
+
+### 2. Script - **analysis.R**
+
+uses the @ knitr variable pattern to read the following
+
+- script_Analysis_Question1
+- script_Analysis_Question2
+- script_Analysis_Question3
+- script_Analysis_Question4
+- script_Analysis_Question5
+- script_Analysis_Question6
+- script_Analysis_Question7
+
+
+read chunk = analysis.R
+```{r setup_codebook2}
+read_chunk(paste(analysis_script))
+#source(analysis_script)
+```
+
+Questions:
+
+#### 2.1 How many breweries are present in each state?
+```{r script_Analysis_Question1, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+number_breweries_byState
+```
+
+#### 2.2 Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
+```{r script_Analysis_Question2, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+# print first 6 observations
+head(script_beer_world, 6)
+
+# print last 6 observations
+tail(script_beer_world, 6)
+```
+
+#### 2.3 Report the number of NA's in each column.
+```{r script_Analysis_Question3, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+# report number of NAs
+num_NAs
+```
+
+#### 2.4 Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare. 
+```{r script_Analysis_Question4, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+
+```
+
+#### 2.5 Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
+```{r script_Analysis_Question5, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+# max ABV
+script_state_max_ABV
+
+# max ABV
+script_state_max_IBU
+```
+
+#### 2.6 Summary statistics for the ABV variable.
+```{r script_Analysis_Question6, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+# printed summary of ABV
+```
+
+#### 2.7 Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot. Make your best judgment of a relationship and EXPLAIN your answer.
+```{r script_Analysis_Question7, echo=TRUE}
+```
+#### Result: 
+```{r echo=TRUE}
+# Summary of relationship
+```
+
