@@ -27,3 +27,13 @@ BrewData Inc., a data science company specializing in brewery and beer data has 
     + topBreweries2016.csv - updated data for new trends
     + topcraft2016.csv - updated data for craft beer trends
 
+* Project Root
+    + Bibliography_and_notes.Rmd
+    + Case_Study_01_Beers.Rmd
+    + codebook.Rmd
+    + Makefile
+    + Master_JP_RH.Rmd
+    + msds6306Case.Rproj
+    + Proj1.Rproj
+    + README.md
+    
