@@ -4,7 +4,9 @@ author: "Randall Hendrickson and Jim Park"
 date: "October 6, 2017"
 params:
   state: "TX"
-output: md_document
+output: 
+   html_document:
+      keep_md: true
 ---
 
 #INTRODUCTION
@@ -167,7 +169,7 @@ cor.test(StateCenterABV$Longitude, StateCenterABV$ABV)
 ```
 
 # A Look at possible correlation between latitude and ABV
-```{r LatLong, ECHO=TRUE}
+```{r LatLong1, ECHO=TRUE}
 StateLatLong <- data.frame(matrix(ncol = 3, nrow = 50))
 sa <- as.data.frame(state.abb)
 names(sa)[names(sa) == "state.abb"] <- "State"
