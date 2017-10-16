@@ -1,53 +1,49 @@
 ---
-title: "Bibliography version 0"
-author: "Randall Hendrickson"
+title: "BrewData Bibliography for Case Study 1"
+author: "Jim Park & Randall Hendrickson"
 date: "October 15, 2017"
-output: html_document
+output: 
+  html_document:
+        keep_md: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## RMarkdown file for bibliography and misc notes (version 0.00)
+#### Bibliography and Notes for Case Study 1
 
-# put stuff here until looked at how to organize 
-# originally stored in scripts/dataSetup.R
+#### log bibliography info
 
-# note - to run from cmd line
-# "c:\Program Files\R\R-3.4.1\bin\Rscript.exe" -e "library(knitr); knit('Case_Study_01_Beers.Rmd')
+### Brewery Data and Beer Data
+#### From SMU MSDS 6306 Doing Data Science - Case Study 1 (exact origin not known)
 
+##### http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html#bibliography_placement
 
-# log bibliography info
-#
-# TODO note- testing where to put bibliographies and citations (some ideas)
-# probably at end of Rmarkdown as described in Bibliography placement
-# http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html#bibliography_placement
+##### https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-cite-web-pages-and-programs-from-the-ucla-statistical-consulting-group/
+##### https://stats.idre.ucla.edu/r/faq/how-can-i-explore-different-smooths-in-ggplot2/
 
-# https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-cite-web-pages-and-programs-from-the-ucla-statistical-consulting-group/
-# https://stats.idre.ucla.edu/r/faq/how-can-i-explore-different-smooths-in-ggplot2/
+##### http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
 
-# http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+#### how to separate documents with knitr
+##### https://yihui.name/knitr/demo/externalization/
+##### https://github.com/yihui/knitr-examples
 
-# info on how to separate documents
-# https://yihui.name/knitr/demo/externalization/
-# https://github.com/yihui/knitr-examples
+##### knitr error messages
+##### https://yihui.name/knitr/options/
 
-# nice message when errors are shown
-# https://yihui.name/knitr/options/
+##### R strings
+##### http://www.gastonsanchez.com/Handling_and_Processing_Strings_in_R.pdf
 
-# nice info on strings
-# http://www.gastonsanchez.com/Handling_and_Processing_Strings_in_R.pdf
+#### Here - a package for working directory (to help with project structure)
+##### https://github.com/jennybc/here_here#readme
 
-# a package for working directory (to help with project structure)
-# https://github.com/jennybc/here_here#readme
+#### updated 2016 top craft/breweries 
+##### topbreweries2016.csv, topcraft2016.csv
+##### https://www.brewersassociation.org/press-releases/brewers-association-releases-top-50-breweries-of-2016/
 
-# updated 2016 top craft/breweries 
-# topbreweries2016.csv, topcraft2016.csv
-# https://www.brewersassociation.org/press-releases/brewers-association-releases-top-50-breweries-of-2016/
-
-# notes on RMarkdown and knitr
-# http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html
+#### notes on RMarkdown and knitr
+##### http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html
 
 
 
