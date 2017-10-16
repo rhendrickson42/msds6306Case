@@ -49,7 +49,7 @@ num_NAs <- sapply(script_beer_world, function(x) sum(is.na(x)))
 # compute the median alcohol content and IBU for each state Plot a bar chart to compare
 
 script_state_ABV <- aggregate(script_beer_world["ABV"], by=script_beer_world[c("State")], FUN=median, na.rm=TRUE)
-barplot(script_state_ABV$ABV, main="Beer ABV by State", names.arg = script_state_ABV$State)
+barplot(script_state_ABV$ABV, main="Beer ABV by State", names.arg = script_state_ABV$State, las=2)
 
 script_state_IBU <- aggregate(script_beer_world["IBU"], by=script_beer_world[c("State")], FUN=median, na.rm=TRUE)
 barplot(script_state_IBU$IBU, main="Beer IBU by State", names.arg = script_state_IBU$State)
