@@ -140,6 +140,7 @@ ggplot(mergedData, aes(x = IBU, y = ABV)) +
 
 10. ABV preference by Latitude and Longitude of centroid of State.
 
+# A Look at possible correlation between longitude and ABV
 ```{r LatLong, ECHO=TRUE}
 StateLatLong <- data.frame(matrix(ncol = 3, nrow = 50))
 sa <- as.data.frame(state.abb)
@@ -160,9 +161,36 @@ StateCenterABV <-data.frame(matrix(ncol = 4, nrow = 51))
 #StateCenterABV <- data.frame(matrix(ncol=4, nrow=51)
 StateCenterABV <- merge(StateLatLong, state_ABV, by=c('State'))
 StateCenterABV
+plot(StateCenterABV$Longitude, StateCenterABV$ABV)
+abline(lm(StateCenterABV$ABV~StateCenterABV$Longitude),col="blue",lwd=2)
+cor.test(StateCenterABV$Longitude, StateCenterABV$ABV)
 ```
 
-#******************Should we add any more?  (MAY DEPEND ON AVAIALBLE TIME) **************************************************
+# A Look at possible correlation between latitude and ABV
+```{r LatLong, ECHO=TRUE}
+StateLatLong <- data.frame(matrix(ncol = 3, nrow = 50))
+sa <- as.data.frame(state.abb)
+names(sa)[names(sa) == "state.abb"] <- "State"
+sc <- as.data.frame(state.center)
+StateLatLong <- cbind(sa,sc)
+names(StateLatLong)[names(StateLatLong) == "x"] <- "Longitude"
+names(StateLatLong)[names(StateLatLong) == "y"] <- "Latitude"
+StateLatLong$State <- as.character(as.factor(StateLatLong$State))
+state_ABV$State <- as.character(as.factor(state_ABV$State))
+StateLatLong <- rbind(StateLatLong, c("DC", -77.0369, 38.9072)) #Adds DC to the list
+StateLatLong$Longitude <- as.numeric(as.character(StateLatLong$Longitude))
+StateLatLong$Latitude <- as.numeric(as.character(StateLatLong$Latitude))
+StateLatLong <- StateLatLong[order(StateLatLong$State),]
+StateCenterABV <-data.frame(matrix(ncol = 4, nrow = 51))
+#StateCenterABV <- data.frame(matrix(ncol=4, nrow=51)
+StateCenterABV <- merge(StateLatLong, state_ABV, by=c('State'))
+StateCenterABV
+plot(StateCenterABV$Latitude, StateCenterABV$ABV)
+cor.test(StateCenterABV$Latitude, StateCenterABV$ABV)
+lm(StateCenterABV$ABV~StateCenterABV$Latitude) #in the form Y=X
+myfit=lm(StateCenterABV$ABV~StateCenterABV$Latitude) #in the form Y=X
+myfit
+```
 
 
 
