@@ -17,24 +17,38 @@ BrewData Inc., a data science company specializing in brewery and beer data has 
 ### **codebook.Rmd**
 ### **Bibliography_adn_notes.Rmd**
 
-* scripts directory
-    + dataSetup.R - R script to get data
-    + createDataSets.R - R script to process data
-    + analysis.R - R script to analyze data
-    
-* markdown directory
-    + analysis.Rmd - analysis for breweries and beers
-    + customer.Rmd - analysis specific to a particular state where the customer is located
-    
+```
+|--Project_Root
+    |--data
+    |--markdown
+    |--scripts
+    |--Bibliography_and_notes.Rmd
+    |--Makefile
+    |--Master_JP_RH.Rmd
+    |--Master_JP_RH.html
+    |--Master_JP_RH.md
+    |--README.md
+    |--codebook.Rmd
+```
+
 * data directory
     + Beers.csv - data for beers across the United States
     + Breweries.csv - data for breweries across the United States
     + topBreweries2016.csv - updated data for new trends
     + topcraft2016.csv - updated data for craft beer trends
 
+* markdown directory
+    + analysis.Rmd - analysis for breweries and beers
+    + customer.Rmd - analysis specific to a particular state where the customer is located
+    + Case_Study_01_Beers.Rmd
+
+* scripts directory
+    + dataSetup.R - R script to get data
+    + createDataSets.R - R script to process data
+    + analysis.R - R script to analyze data
+    
 * Project Root
     + Bibliography_and_notes.Rmd
-    + Case_Study_01_Beers.Rmd
     + **codebook.Rmd**
     + Makefile
     + **Master_JP_RH.Rmd**
