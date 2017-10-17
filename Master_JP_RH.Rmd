@@ -107,8 +107,7 @@ State_IBU[which.max(State_IBU$IBU),]
 
 ```
 
-Following the last sections of our contract.
-6. Summary statistics for the ABV variable.  TODO: Add description of how this fits the report.
+6. Following the last sections of our contract, we are providing a summary of the ABV data, this summary includes the data from the output below.
 
 ```{r question_6, ECHO=TRUE}
 
@@ -116,14 +115,14 @@ summary(state_ABV)
 
 ```
 
-7. Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot. TODO:How do we want to describe this trend?
+7. Finally, GBDi requested us to understand the relationship between the bitterness of the beer and its alcoholic content? Please see the below scatter plot. You will see there is a somewhat linear trend whereas IBU increases, so does ABV. Please note, that this is an observational study so causation cannot be inferred.
 
 ```{r beer_plot}
 
 ggplot(mergedData, aes(x = IBU, y = ABV)) + 
   geom_point(colour = 'red', size = 1, na.rm=TRUE) + 
   labs(title = "Relationship between Bitterness and Alcohol content", subtitle = "Is bitter better?") + 
-  labs(caption = "(based on data from ...?? where's the data from ??)") +
+  labs(caption = "(based on data from GBDI") +
   geom_smooth(method=lm, se=FALSE, size = 1, na.rm=TRUE)
 
 ```
