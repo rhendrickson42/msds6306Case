@@ -29,8 +29,6 @@ local_file2 <- here("data", "Beers.csv")
 Breweries <- read.csv(paste(local_file1),sep=",", header = TRUE)
 library('plyr') # to call the count command
 States <- (Breweries$State) #assigns variable to States
-names(States)[names(States) == "x"] <- "State"
-names(States)[names(States) == "freq"] <- "frequency"
 count(States) #Generates frequency table.  Number of Observations(breweries)/State
 ```
 
@@ -127,13 +125,13 @@ ggplot(mergedData, aes(x = IBU, y = ABV)) +
 
 ```
 
-In addition to the information requested under contract BrewData Inc. strives to exceed our customers expectations.  We hope you find the following information useful in understanding beer adn brewery trends in the selected state and in the nation in general.  The queries the data provided and lists all of the beers in a particular state (in this case Texas) along with a custom statement.  This data may be useful in understanding the level of competition in your state as well as an indication of which states are "Brew Friendly."
+In addition to the information requested under contract BrewData Inc. strives to exceed our customers expectations.  We hope you find the following information useful in understanding beer adn brewery trends in the selected state and in the nation in general.  The queries the data provided and lists all of the beers in a particular state (in this case Texas) along with a custom statement.  This data may be useful in understanding the level of competition in your state as well as an indication of which states are "Brew Friendly."  Please note that the data below is simply the first ten beers and only the last 5 columns due to space considerations.
 
 ```{r BeersInState, ECHO=TRUE}
 StateBeers <- mergedData[grep(StateSelected, mergedData$State),]
 BeersInStateOutput <- paste('There are', length(ListOfStates), ' Unique states in this data set and', nrow(StateBeers), 'unique beers in the state of', StateSelected)
 BeersInStateOutput
-StateBeers
+head(StateBeers[,5:10], n=10)
 ```
 
 Finally, BrewData Inc. has provided sample output for our patent pending regional ABV preference algorithm.   This tool assesses if there is a correlation between ABV and longitude and latitude as measured by the center of each state.   In both cases the correlation was relatively weak (less than 13%) with p values of 0.5737 (Longitude) and 0.3861 (Latitude).   Althought the correlations are week, With additional contract work we could explore similar trends that your prime competitor seems to be leveraging fairly well.
