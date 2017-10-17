@@ -195,7 +195,7 @@ abline(lm(StateCenterABV$ABV~StateCenterABV$Latitude),col="blue",lwd=2)
 # CONCLUSION
 BrewData Inc. has concluded that the beer industry is in a high growth mode in both ABV and IBU.   We would be please to collect and leverage further data in defining a profitable niche for your next super beer.
 
-** Cheers, R. Hendrickson (Chief Beer Officer) and J. Park (Chief Data Officer) **
+## Cheers, R. Hendrickson (Chief Beer Officer) and J. Park (Chief Data Officer) **
 
 
 
