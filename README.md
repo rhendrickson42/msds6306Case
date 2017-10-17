@@ -15,6 +15,7 @@ BrewData Inc., a data science company specializing in brewery and beer data has 
 ### **Master_JP_RH.Rmd** <---- master document
 ### **README.md** <----- this file
 ### **codebook.Rmd**
+### **Bibliography_adn_notes.Rmd**
 
 * scripts directory
     + dataSetup.R - R script to get data
