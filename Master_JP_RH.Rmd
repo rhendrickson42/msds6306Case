@@ -14,19 +14,14 @@ output:
 The number of breweries in the United States has more than tripled in the last decade according to www.brewersassociation.org.  Along with this explosive growth the industry is becoming much more competitive.   For startup breweries it is important to understand the level of competition within the state and the preferences of the consumer in order to be successful.  BrewData Inc., a data science company specializing in brewery and beer data, is pleased to provide our client, Great-Beer Distributors Inc. (GBDI), with an easy to use R program which reports out specific beer and brewery data of interested by the state as well as national trends.  As requested BrewData Inc. will conduct this work utilizing the data provided by GBDI.  Finally, GBDI has also asked BrewDAta Inc. to simplify the data provided by consolidating in to one merged data file and to identify missing data.
 
 CAPABILITIES AND DEMONSTRATION OF PROGRAM
-To illustrate the program capabilites BrewData Inc. has provided the following sample program output.   All all that is needed is to enter the state in the indicated location and the program will provide a report specific to the state entered.  A sample report for the state of Michigan, entered as 'MI', is provided below.
+To illustrate the program capabilites BrewData Inc. has provided sample program output using the state of Texas. To get additional reports for different states, change the state in *line 6* of the *Master_JP_RH.Rmd* document to another state, and run the *make* command at the project root directory, or use RStudio's *Build All* button. The program will provide a report specific to the state entered.  A sample report for the state of Texas, entered as 'TX', is provided below.
 
-TODO:File reference still required in bibliography.
-TODO:  Clear explicit answers to all questions.
+Here are specific responses as requested by our contract signed earlier. Please note, for the purpose of this report,  Washington D.C is modeled as a separate state.
 
+1. As requested by GBDI, we have the following data for the number of breweries in each state. This will provide data whether their new brewery has local competition and by how many breweries.
 
-Once the state is entered the program will output the following useful information:
-
-
-1. Number of Breweries in each state.  This provides national context.
-```{r, ECHO = FALSE}
+```{r, ECHO = TRUE}
 StateSelected <- params$state
-#tateSelected <- c('MI') #Fill in desired state inbetween the quotes here from list of States by alphabetical order.
 # devtools::install_github("krlmlr/here")
 library(here)
 local_file1 <- here("data", "Breweries.csv")
@@ -39,8 +34,8 @@ names(States)[names(States) == "freq"] <- "frequency"
 count(States) #Generates frequency table.  Number of Observations(breweries)/State
 ```
 
+2. Additional information requested by GBDI was related to the beers that these respective brewers produce. We have consolidated this data by merging the data for the beers produced by each brewer. As requested, here are the first and last six observations for this data. A printing of the first 6 observations and the last 6 observations are provided here as a sample of the output.
 
-2. Merge beer data with Breweries data and consolidate into one document. A printing of the first 6 observations and the last 6 observations are provided here as a sample of the output.
 ```{r Q2MergedData, ECHO=TRUE}
 Beers <- read.csv(paste(local_file2),sep=",", header = TRUE)
 mergedData <- merge(Breweries, Beers, by.x=c('Brew_ID'), by.y=c('Brewery_id'))
@@ -51,8 +46,7 @@ head(mergedData,n=6)
 tail(mergedData, n=6)
 ```
 
-
-3. Identification of missing data.  In this output missing data will be represented by an "NA" term.
+3. As requested by GBDI, we are pleased to perform robustness tests on the produced data. We have identified some missing data as detailed below. This is represented by an "NA" term and the counts are detailed below. The chart below shows there are 62 NAs in Alcohol by Volume (ABV) and there are 1005 NAs in International Bitterness Unit data. Both were from data sets provided by GBDI. It should be noted that South Dakota did not have any reported IBU data. (For an additional fee, we can provide testing for all missing NA data or provide state of the art bootstrapping techniques.)
 
 ```{r question3}
 # report number of NAs
@@ -60,9 +54,7 @@ num_NAs <- sapply(mergedData, function(x) sum(is.na(x)))
 num_NAs
 ```
 
-
-4. Compute the median Alcohol By Volume content (ABV) and the International Bitterness Unite (IBU) for each state.
-
+4. After speaking with GBDI's *Brewmaster Mr. Potterhead*, we are well aware of the need to understand the ABV and IBU medians from the provided data. We are pleased to provide *Mr. Potterhead* with the following results and he should note that the report is customized to highlight The State of Texas in *Blue* as defined in our contract.
 
 ```{r ABVIBUCharts, ECHO=TRUE}
 state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
@@ -100,8 +92,8 @@ ColorOfPlotIBU[which(grepl(StateSelected, State_IBU$State))] <- 'blue'
 ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State") + labs(caption = "(*SD did not have any reported IBU values)")
 ```
 
+Additionally, after deep analysis, we are able to provide which state has the maximum alcoholic (ABV) beer and which state has the most bitter (IBU) beer. Please find the following data for your reference.
 
-5. Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
 The state with the highest (max) median ABV is District of Columbia (DC).
 The state with the highest (max) median IBU is Maine (ME).
 
@@ -114,6 +106,8 @@ state_ABV[which.max(state_ABV$ABV),]
 State_IBU[which.max(State_IBU$IBU),]
 
 ```
+
+Following the last sections of our contract.
 6. Summary statistics for the ABV variable.  TODO: Add description of how this fits the report.
 
 ```{r question_6, ECHO=TRUE}
