@@ -13,4 +13,4 @@ RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
 BuildType: Makefile
-MakefilePath: ~/repos/datascience/caseStudy/branches/master/msds6306Case
+MakefilePath: D:/dataScience/doingDS/case-study01/msds6306Case
