@@ -46,4 +46,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ##### http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html
 
 
+#### notes on user environment
+#### https://stat.ethz.ch/R-manual/R-devel/library/base/html/EnvVar.html
+#### set R_LIBS_USER=<path> ... /R/win-library/3.4
+#### works in RStudio but not cmd line? check Sys.getenv()
+#### https://stat.ethz.ch/R-manual/R-devel/library/base/html/Sys.getenv.html
+#### The help for ‘environment variables’ lists many of the environment variables used by R.
+
 

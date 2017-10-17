@@ -92,10 +92,10 @@ cat(paste("This is the state to analyze:", params$state))
 ```
 
 
-```{r child = './markdown/analysis.Rmd'}
+```{r child = './analysis.Rmd'}
 ```
 
-```{r child = './markdown/customer.Rmd'}
+```{r child = './customer.Rmd'}
 ```
 
 ## Reproducible Research
