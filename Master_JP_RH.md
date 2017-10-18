@@ -6,7 +6,7 @@ October 6, 2017
 
 The number of breweries in the United States has more than tripled in the last decade according to www.brewersassociation.org.  Along with this explosive growth the industry is becoming much more competitive.   For startup breweries it is important to understand the level of competition within the state and the preferences of the consumer in order to be successful.  BrewData Inc., a data science company specializing in brewery and beer data, is pleased to provide our client, Great-Beer Distributors Inc. (GBDI), with an easy to use R program which reports out specific beer and brewery data of interested by the state as well as national trends.  As requested BrewData Inc. will conduct this work utilizing the data provided by GBDI.  Finally, GBDI has also asked BrewDAta Inc. to simplify the data provided by consolidating in to one merged data file and to identify missing data.
 
-CAPABILITIES AND DEMONSTRATION OF PROGRAM
+# CAPABILITIES AND DEMONSTRATION OF PROGRAM
 To illustrate the program capabilites BrewData Inc. has provided sample program output using the state of Texas. To get additional reports for different states, change the state in *line 6* of the *Master_JP_RH.Rmd* document to another state, and run the *make* command at the project root directory, or use RStudio's *Build All* button. The program will provide a report specific to the state entered.  A sample report for the state of Texas, entered as 'TX', is provided below.
 
 Here are specific responses as requested by our contract signed earlier. Please note, for the purpose of this report,  Washington D.C is modeled as a separate state.
@@ -318,7 +318,7 @@ head(StateBeers[,5:10], n=10)
 ## 455             American Brown Ale     12
 ```
 
-Finally, BrewData Inc. has provided sample output for our patent pending regional ABV preference algorithm.   This tool assesses if there is a correlation between ABV and longitude and latitude as measured by the center of each state.   In both cases the correlation was relatively weak (less than 13%) with p values of 0.5737 (Longitude) and 0.3861 (Latitude).   Althought the correlations are week, With additional contract work we could explore similar trends that your prime competitor seems to be leveraging fairly well.
+Finally, BrewData Inc. has provided sample output for our patent pending regional ABV preference algorithm.   This tool assesses if there is a correlation between ABV and longitude and latitude as measured by the center of each state.   In both cases the correlation was relatively weak (less than 13%) with p values of 0.5737 (Longitude) and 0.3861 (Latitude).   Although the correlations are week, With additional contract work we could explore similar trends that your prime competitor seems to be leveraging fairly well.
 
 # A Look at possible correlation between longitude and ABV
 
@@ -556,7 +556,7 @@ abline(lm(StateCenterABV$ABV~StateCenterABV$Latitude),col="blue",lwd=2)
 ![](Master_JP_RH_files/figure-html/LatLong1-1.png)<!-- -->
 
 # CONCLUSION
-BrewData Inc. has concluded that the beer industry is in a high growth mode in both ABV and IBU.   We would be please to collect and leverage further data in defining a profitable niche for your next super beer.
+BrewData Inc. has concluded that the beer industry is in a high growth mode in both ABV and IBU.  We have provided valuable data regarding national and state trends and the ability to customize reports based on the state desired.   Based on our most recently developed correlation tools there are many other areas to discover valuable information regarding the beer industry.   Please see the markdown directory provided in the Github repository for additional case studies, alternate tools and technology and customer scenarios that we would be pleased to utilize in our next project.  Also in the markdown directory you will find a "Master_JP_RH_Version2.Rmd" file witch is a condensed version where scripts are conveniently called versus imbedded.   This will provide a convenient method to integrat with the provided analytics 'engine'.  We would be pleased to collect and leverage further data in defining a profitable niche for your next super beer.  For addition reference please see the codebook.Rmd file contained in the root directory of this repository.
 
 ## Cheers, R. Hendrickson (Chief Beer Officer) and J. Park (Chief Data Officer) **
 
