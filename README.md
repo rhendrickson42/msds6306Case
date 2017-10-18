@@ -8,11 +8,12 @@ The number of breweries in the United States has more than tripled in the last d
 
 # Company Profile
 
-BrewData Inc., a data science company specializing in brewery and beer data has created new algorithms and data analysis tools to help understand your target market.
+BrewData Inc., a data science company specializing in brewery and beer data has created new algorithms and data analysis tools to help understand your target market.  The two key files are the "README.md"" file and the "Master_JP_RH.md" file
 
 # Directory Structure
 
-### **Master_JP_RH.Rmd** <---- master document
+### **"Master_JP_RH.md"** <-----master document
+### **Master_JP_RH.Rmd** <---- master Rmarkdown file
 ### **README.md** <----- this file
 ### **codebook.Rmd**
 ### **Bibliography_adn_notes.Rmd**
@@ -52,8 +53,7 @@ BrewData Inc., a data science company specializing in brewery and beer data has 
     + **codebook.Rmd**
     + Makefile
     + **Master_JP_RH.Rmd**
-    + msds6306Case.Rproj
-    + Proj1.Rproj
+    + Master_JP_RH.Rproj
     + **README.md**
     
     
