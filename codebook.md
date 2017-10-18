@@ -2,6 +2,61 @@
 Jim Park & Randall Hendrickson  
 October 13, 2017  
 
+To access data and code for this codebook, please fork us at:
+https://github.com/rhendrickson42/msds6306Case
+
+# The following section is the codebook for the Master_JP_RH.Rmd document.
+
+PACKAGES/LIBRARIES
+devtools::install_github("krlmlr/here") - Used to simplify working directory.  Self determines.
+
+library('plyr') # to call the count command which provies a frequency of occurance for a factor.  Used in this case to count occurances of breweries in each state.
+
+library(here) - Used to simplify working directory.  Self determines. Reads CSV files from data file and returns a local file reference.
+
+library(ggplot2) - a plotting package used for several visuals in this report.
+
+
+OBJECTS/DATA FILES
+Brewies.csv - Contians brewery information including Brew_ID,Name,City, and State
+
+Beers.csv - Contians Beer information including Name, Beer_ID, ABV, IBU, Brewery_id and Style,Ounces for 2410 observations
+
+Breweries - data frame object with brewery information created by reading Breweries.csv
+
+Beers - data frame object with beers information 
+
+States - an object containing a list of states.  Each entry represents one brewery in that state later used for number of breweries (frequency) in the state.
+
+mergedData - a data frame which consists of two merged objects :Beers and Breweries.  Renamed columns and tidy (cleared up white space.  Euro characters were left as is and had no impact) where necessary
+
+num_NAs - an object that consists of a summary of NA's within each column of the mergedData dataframe.
+
+state_ABV- an object that consists of the median ABV statistics by state extracted from the mergedData data frame.
+
+State_IBU - an object that consists of the median IBU statistics by state extracted from the mergedData data frame.
+
+StateQty - a data frame that aggregates the state name and the number of times it occurs in the mergedData data frame.  This data frame is built in a loop.
+
+StateBeers - an object with a subset of information from mergedData data frame that consists of the selected state and all of the beers in that state.
+
+ColorOfPlot - an object used to set the aesthetics of the ABV plot
+
+ColorOfPlotIBU - an object used to set the aesthetics of the IBU plot
+
+BeersInStateOutput - an object used to construct a state specific output sentance.
+
+StateCenter - a dataframe used to list the state, Latitude, and Longitude.
+
+StateLatLong - a dataframe used to list the state, Latitude, and Longitude including DC as a state.
+
+StateCenterABV - a dataframe consisting of a merge of StateLatLong and ABV data from StateCenter
+
+sa - an object with state abbreviations (from a built in package called state.abb)
+
+cs - an object with state center latitude and longitude (from a built in package called state.center)
+
+# The following section is the codebook for customer specific reports in the "markdown" directory
 
 ```r
 knitr::opts_chunk$set(echo = FALSE)
@@ -13,7 +68,7 @@ if(!require("here")) cat("please install here package # devtools::install_github
 ```
 
 ```
-## here() starts at /Users/randy/repos/datascience/caseStudy/branches/master/msds6306Case
+## here() starts at C:/Users/Jim/Google Drive/School/DoingDataScience/BranchProject/msds6306Case
 ```
 
 ```r
@@ -22,10 +77,6 @@ library(here)
 dataSetup_script <- here("scripts", "dataSetup.R")
 analysis_script <- here("scripts", "analysis.R")
 source(dataSetup_script)
-```
-
-```
-## Loading required package: methods
 ```
 
 ```
@@ -64,7 +115,7 @@ sprintf("This returns two files: %s , %s", local_file1, local_file2)
 ```
 
 ```
-## [1] "This returns two files: /Users/randy/repos/datascience/caseStudy/branches/master/msds6306Case/data/Breweries.csv , /Users/randy/repos/datascience/caseStudy/branches/master/msds6306Case/data/Beers.csv"
+## [1] "This returns two files: C:/Users/Jim/Google Drive/School/DoingDataScience/BranchProject/msds6306Case/data/Breweries.csv , C:/Users/Jim/Google Drive/School/DoingDataScience/BranchProject/msds6306Case/data/Beers.csv"
 ```
 
 #### 1. b. Read the data files
@@ -83,7 +134,7 @@ str(script_beers)
 
 ```
 ## 'data.frame':	2410 obs. of  7 variables:
-##  $ Name      : Factor w/ 2305 levels "#001 Golden Amber Lager",..: 1638 577 1704 1842 1819 268 1160 758 1093 486 ...
+##  $ Name      : Factor w/ 2305 levels "#001 Golden Amber Lager",..: 1638 577 1705 1842 1819 268 1160 758 1093 486 ...
 ##  $ Beer_ID   : int  1436 2265 2264 2263 2262 2261 2260 2259 2258 2131 ...
 ##  $ ABV       : num  0.05 0.066 0.071 0.09 0.075 0.077 0.045 0.065 0.055 0.086 ...
 ##  $ IBU       : int  NA NA NA NA NA NA NA NA NA NA ...
@@ -140,27 +191,29 @@ script_breweries$State <- trimws(script_breweries$State)
 
 ```
 ## R version 3.4.1 (2017-06-30)
-## Platform: x86_64-apple-darwin16.7.0 (64-bit)
-## Running under: macOS High Sierra 10.13
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 15063)
 ## 
 ## Matrix products: default
-## BLAS: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
-## LAPACK: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
 ## 
 ## locale:
-## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
-## [1] methods   stats     graphics  grDevices utils     datasets  base     
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
 ## [1] RCurl_1.95-4.8 bitops_1.0-6   knitr_1.17     here_0.1      
-## [5] rmarkdown_1.6 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] compiler_3.4.1  backports_1.1.1 magrittr_1.5    rprojroot_1.2  
-##  [5] tools_3.4.1     htmltools_0.3.6 yaml_2.1.14     Rcpp_0.12.13   
-##  [9] stringi_1.1.5   stringr_1.2.0   digest_0.6.12   evaluate_0.10.1
+##  [1] compiler_3.4.1  backports_1.1.0 magrittr_1.5    rprojroot_1.2  
+##  [5] tools_3.4.1     htmltools_0.3.6 yaml_2.1.14     Rcpp_0.12.12   
+##  [9] stringi_1.1.5   rmarkdown_1.6   stringr_1.2.0   digest_0.6.12  
+## [13] evaluate_0.10.1
 ```
 
 
@@ -444,14 +497,14 @@ num_NAs
 # compute the median alcohol content and IBU for each state Plot a bar chart to compare
 
 script_state_ABV <- aggregate(script_beer_world["ABV"], by=script_beer_world[c("State")], FUN=median, na.rm=TRUE)
-barplot(script_state_ABV$ABV, main="Beer ABV by State", names.arg = script_state_ABV$State)
+barplot(script_state_ABV$ABV, main="Beer ABV by State", names.arg = script_state_ABV$State, las=2)
 ```
 
 ![](codebook_files/figure-html/script_Analysis_Question4-1.png)<!-- -->
 
 ```r
 script_state_IBU <- aggregate(script_beer_world["IBU"], by=script_beer_world[c("State")], FUN=median, na.rm=TRUE)
-barplot(script_state_IBU$IBU, main="Beer IBU by State", names.arg = script_state_IBU$State)
+barplot(script_state_IBU$IBU, main="Beer IBU by State", names.arg = script_state_IBU$State, las=2)
 ```
 
 ![](codebook_files/figure-html/script_Analysis_Question4-2.png)<!-- -->
@@ -546,4 +599,10 @@ ggplot(script_beer_world, aes(x = IBU, y = ABV)) +
 ```r
 # Summary of relationship
 ```
+
+To access data and code for this codebook, please fork us at:
+https://github.com/rhendrickson42/msds6306Case
+
+
+
 

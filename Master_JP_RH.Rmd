@@ -134,7 +134,7 @@ BeersInStateOutput
 head(StateBeers[,5:10], n=10)
 ```
 
-Finally, BrewData Inc. has provided sample output for our patent pending regional ABV preference algorithm.   This tool assesses if there is a correlation between ABV and longitude and latitude as measured by the center of each state.   In both cases the correlation was relatively weak (less than 13%) with p values of 0.5737 (Longitude) and 0.3861 (Latitude).   Althought the correlations are week, With additional contract work we could explore similar trends that your prime competitor seems to be leveraging fairly well.
+Finally, BrewData Inc. has provided sample output for our patent pending regional ABV preference algorithm.   This tool assesses if there is a correlation between ABV and longitude and latitude as measured by the center of each state.   In both cases the correlation was relatively weak (less than 13%) with p values of 0.5737 (Longitude) and 0.3861 (Latitude).   Although the correlations are week, With additional contract work we could explore similar trends that your prime competitor seems to be leveraging fairly well.
 
 # A Look at possible correlation between longitude and ABV
 ```{r LatLong, ECHO=TRUE}

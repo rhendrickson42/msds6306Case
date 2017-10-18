@@ -9,6 +9,61 @@ editor_options:
   chunk_output_type: console
 ---
 
+To access data and code for this codebook, please fork us at:
+https://github.com/rhendrickson42/msds6306Case
+
+# The following section is the codebook for the Master_JP_RH.Rmd document.
+
+PACKAGES/LIBRARIES
+devtools::install_github("krlmlr/here") - Used to simplify working directory.  Self determines.
+
+library('plyr') # to call the count command which provies a frequency of occurance for a factor.  Used in this case to count occurances of breweries in each state.
+
+library(here) - Used to simplify working directory.  Self determines. Reads CSV files from data file and returns a local file reference.
+
+library(ggplot2) - a plotting package used for several visuals in this report.
+
+
+OBJECTS/DATA FILES
+Brewies.csv - Contians brewery information including Brew_ID,Name,City, and State
+
+Beers.csv - Contians Beer information including Name, Beer_ID, ABV, IBU, Brewery_id and Style,Ounces for 2410 observations
+
+Breweries - data frame object with brewery information created by reading Breweries.csv
+
+Beers - data frame object with beers information 
+
+States - an object containing a list of states.  Each entry represents one brewery in that state later used for number of breweries (frequency) in the state.
+
+mergedData - a data frame which consists of two merged objects :Beers and Breweries.  Renamed columns and tidy (cleared up white space.  Euro characters were left as is and had no impact) where necessary
+
+num_NAs - an object that consists of a summary of NA's within each column of the mergedData dataframe.
+
+state_ABV- an object that consists of the median ABV statistics by state extracted from the mergedData data frame.
+
+State_IBU - an object that consists of the median IBU statistics by state extracted from the mergedData data frame.
+
+StateQty - a data frame that aggregates the state name and the number of times it occurs in the mergedData data frame.  This data frame is built in a loop.
+
+StateBeers - an object with a subset of information from mergedData data frame that consists of the selected state and all of the beers in that state.
+
+ColorOfPlot - an object used to set the aesthetics of the ABV plot
+
+ColorOfPlotIBU - an object used to set the aesthetics of the IBU plot
+
+BeersInStateOutput - an object used to construct a state specific output sentance.
+
+StateCenter - a dataframe used to list the state, Latitude, and Longitude.
+
+StateLatLong - a dataframe used to list the state, Latitude, and Longitude including DC as a state.
+
+StateCenterABV - a dataframe consisting of a merge of StateLatLong and ABV data from StateCenter
+
+sa - an object with state abbreviations (from a built in package called state.abb)
+
+cs - an object with state center latitude and longitude (from a built in package called state.center)
+
+# The following section is the codebook for customer specific reports in the "markdown" directory
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = FALSE)
 if(!require("here")) cat("please install here package # devtools::install_github(\"krlmlr/here\")")
@@ -157,3 +212,7 @@ script_state_max_IBU
 
 To access data and code for this codebook, please fork us at:
 https://github.com/rhendrickson42/msds6306Case
+
+
+
+

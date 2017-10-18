@@ -4,7 +4,7 @@ Jim Park and Randall Hendrickson
 
 # Project Summary
 
-The number of breweries in the United States has more than tripled in the last decade according to www.brewersassociation.org. Along with this explosive growth the industry is becoming much more competitive. For startup breweries it is important to understand the level of competition within the state and the preferences of the consumer in order to be successful. 
+The number of breweries in the United States has more than tripled in the last decade according to www.brewersassociation.org. Along with this explosive growth the industry is becoming much more competitive. For startup breweries it is important to understand the level of competition within the state and the preferences of the consumer in order to be successful. This project utilizes two provided data sets, combines them, then explores several statistics and relationships of interest.
 
 # Company Profile
 
