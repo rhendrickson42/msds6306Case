@@ -52,7 +52,7 @@ num_NAs <- sapply(mergedData, function(x) sum(is.na(x)))
 num_NAs
 ```
 
-4. After speaking with GBDI's *Brewmaster Mr. Potterhead*, we are well aware of the need to understand the ABV and IBU medians from the provided data. We are pleased to provide *Mr. Potterhead* with the following results and he should note that the report is customized to highlight The State of Texas in *Blue* as defined in our contract.
+4. After speaking with GBDI's *Brewmaster Mr. Potterhead*, we are well aware of the need to understand the ABV and IBU medians from the provided data. We are pleased to provide *Mr. Potterhead* with the following results and he should note that the report is customized to highlight The State of Texas in *Blue* as defined in our contract.  In addition we have provided a chart including the number of beers per state.
 
 ```{r ABVIBUCharts, ECHO=TRUE}
 state_ABV <- aggregate(mergedData["ABV"], by=mergedData[c("State")], FUN=median, na.rm=TRUE)
@@ -88,6 +88,16 @@ State_IBU <- State_IBU[order(-State_IBU$IBU),]#Orders from high to low based on 
 State_IBU[is.na(State_IBU)] <- 0
 ColorOfPlotIBU[which(grepl(StateSelected, State_IBU$State))] <- 'blue' 
 ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "identity", fill=ColorOfPlotIBU) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("IBU") + ggtitle("IBU Median by State") + labs(caption = "(*SD did not have any reported IBU values)")
+
+# Loop to construct the color scheme for fill option in plotting median ABV Uby state
+ColorOfPlotABV <- 0
+for(i in 1:51){
+ColorOfPlotABV[i] <- 'Red'
+}
+state_ABV <- state_ABV[order(-state_ABV$ABV),]#Orders from high to low based on IBU
+state_ABV[is.na(State_IBU)] <- 0
+ColorOfPlotABV[which(grepl(StateSelected, state_ABV$State))] <- 'blue' 
+ggplot(data=state_ABV, aes(x=reorder(State, -ABV), y=ABV)) + geom_bar(stat = "identity", fill=ColorOfPlotABV) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("ABV") + ggtitle("ABV Median by State") 
 ```
 
 Additionally, after deep analysis, we are able to provide which state has the maximum alcoholic (ABV) beer and which state has the most bitter (IBU) beer. Please find the following data for your reference.

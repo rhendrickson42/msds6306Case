@@ -175,7 +175,7 @@ num_NAs
 ##            0           62         1005            0            0
 ```
 
-4. After speaking with GBDI's *Brewmaster Mr. Potterhead*, we are well aware of the need to understand the ABV and IBU medians from the provided data. We are pleased to provide *Mr. Potterhead* with the following results and he should note that the report is customized to highlight The State of Texas in *Blue* as defined in our contract.
+4. After speaking with GBDI's *Brewmaster Mr. Potterhead*, we are well aware of the need to understand the ABV and IBU medians from the provided data. We are pleased to provide *Mr. Potterhead* with the following results and he should note that the report is customized to highlight The State of Texas in *Blue* as defined in our contract.  In addition we have provided a chart including the number of beers per state.
 
 
 ```r
@@ -219,6 +219,20 @@ ggplot(data=State_IBU, aes(x=reorder(State, -IBU), y=IBU)) + geom_bar(stat = "id
 ```
 
 ![](Master_JP_RH_files/figure-html/ABVIBUCharts-2.png)<!-- -->
+
+```r
+# Loop to construct the color scheme for fill option in plotting median ABV Uby state
+ColorOfPlotABV <- 0
+for(i in 1:51){
+ColorOfPlotABV[i] <- 'Red'
+}
+state_ABV <- state_ABV[order(-state_ABV$ABV),]#Orders from high to low based on IBU
+state_ABV[is.na(State_IBU)] <- 0
+ColorOfPlotABV[which(grepl(StateSelected, state_ABV$State))] <- 'blue' 
+ggplot(data=state_ABV, aes(x=reorder(State, -ABV), y=ABV)) + geom_bar(stat = "identity", fill=ColorOfPlotABV) +  theme(axis.text.x=element_text(angle=90,vjust=0.5)) + xlab("State") + ylab("ABV") + ggtitle("ABV Median by State") 
+```
+
+![](Master_JP_RH_files/figure-html/ABVIBUCharts-3.png)<!-- -->
 
 Additionally, after deep analysis, we are able to provide which state has the maximum alcoholic (ABV) beer and which state has the most bitter (IBU) beer. Please find the following data for your reference.
 
